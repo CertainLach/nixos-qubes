@@ -58,6 +58,7 @@
 
             packages = {
               inherit (pkgs)
+                qubes-seabios
                 ;
               inherit (pkgs.python3.pkgs)
                 ;
