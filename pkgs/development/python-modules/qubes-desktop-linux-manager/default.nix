@@ -18,6 +18,8 @@ let
     hash = "sha256-57xTxRuoXF8ajUEaLfYEx+ps0jQC4pA9xcS8A/AISf8=";
   };
 in
+
+# TODO: use /lib/qubes/qubes-device-agent-autostart
 buildPythonPackage {
   inherit version src;
   pname = "qubes-desktop-linux-manager";
