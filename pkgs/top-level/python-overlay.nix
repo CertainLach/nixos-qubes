@@ -27,6 +27,10 @@ in
     callPackage ../development/python-modules/qubes-desktop-linux-common
       { };
 
+  qubes-desktop-linux-manager =
+    callPackage ../development/python-modules/qubes-desktop-linux-manager
+      { };
+
   qubes-imgconverter =
     (pkgs.qubes-linux-utils.override {
       inherit python;
