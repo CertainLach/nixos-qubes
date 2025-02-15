@@ -70,6 +70,7 @@
                 qubes-core-libvirt
                 qubes-core-qubesdb
                 qubes-core-vchan-xen
+                qubes-desktop-linux-kde
                 qubes-gui-common
                 qubes-gui-daemon
                 qubes-linux-utils
