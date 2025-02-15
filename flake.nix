@@ -65,6 +65,7 @@
             packages = {
               inherit (pkgs)
                 qubes-artwork
+                qubes-core-admin-linux
                 qubes-core-agent-linux
                 qubes-core-libvirt
                 qubes-core-qubesdb
