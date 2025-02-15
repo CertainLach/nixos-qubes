@@ -76,6 +76,7 @@
                 qubes-vmm-stubdom-linux
                 ;
               inherit (pkgs.python3.pkgs)
+                qubes-app-linux-usb-proxy
                 qubes-core-admin-client
                 qubes-core-qrexec
                 qubes-desktop-linux-common
