@@ -5,6 +5,7 @@ update() {
 }
 
 # Normal
+update "qubes-core-vchan-xen"
 update "qubes-seabios"
 
 # Python
