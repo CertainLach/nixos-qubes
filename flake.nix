@@ -37,14 +37,14 @@
               import "${inputs.nixpkgs}/pkgs/top-level/by-name-overlay.nix" ./pkgs/by-name
             ))
             (self: _: { libvirt_10_5 = inputs.nixpkgs-libvirt_10_5.legacyPackages.${self.system}.libvirt; });
-        flake.overlays.default = self.flake.overlays.qubesPackages;
+        flake.overlays.default = self.overlays.qubesPackages;
 
         flake.nixosModules.qubes = {
-          config.nixpkgs.overlays = [ self.flake.overlays.default ];
+          config.nixpkgs.overlays = [ self.overlays.default ];
           imports = [ ./nixos/modules/virtualisation/qubes ];
           _file = ./flake.nix;
         };
-        flake.nixosModules.default = self.flake.nixosModules.qubes;
+        flake.nixosModules.default = self.nixosModules.qubes;
 
         perSystem =
           {

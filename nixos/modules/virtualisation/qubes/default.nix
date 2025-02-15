@@ -32,8 +32,9 @@ let
     qubes-manager
     runCommand
     qubes-core-admin-linux
+    python3
     ;
-  inherit (pkgs.python3Packages)
+  inherit (python3.pkgs)
     qubes-core-admin
     qubes-core-qrexec
     qubes-desktop-linux-common
@@ -49,7 +50,7 @@ let
 
   # FIXME(upstream): symlinkJoin needs stripPrefix argument
   inherit (lib) hasPrefix isList optionalString;
-  inherit (pkgs) lndir;
+  inherit (pkgs.xorg) lndir;
   symlinkJoin =
     args_@{
       name,
