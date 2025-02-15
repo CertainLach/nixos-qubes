@@ -79,6 +79,7 @@
                 qubes-core-admin-client
                 qubes-core-qrexec
                 qubes-desktop-linux-common
+                qubes-desktop-linux-manager
                 qubes-vmm-xen
                 ;
 

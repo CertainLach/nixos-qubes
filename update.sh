@@ -18,6 +18,7 @@ update "qubes-seabios"
 update "qubes-core-admin-client"
 update "qubes-core-qrexec"
 update "qubes-desktop-linux-common"
+update "qubes-desktop-linux-manager"
 
 # Needs special care:
 # qubes-core-libvirt - patches nixpkgs libvirt
