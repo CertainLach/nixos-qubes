@@ -8,6 +8,8 @@ let
     ;
 in
 {
+  qubes-core-admin-client = callPackage ../development/python-modules/qubes-core-admin-client { };
+
   qubes-core-libvirt = self.libvirt.override {
     libvirt = pkgs.qubes-core-libvirt;
     # FIXME: Override maintainers
