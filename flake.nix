@@ -60,6 +60,7 @@
               inherit (pkgs)
                 qubes-core-qubesdb
                 qubes-core-vchan-xen
+                qubes-linux-utils
                 qubes-seabios
                 qubes-vmm-stubdom-linux
                 ;

@@ -7,6 +7,7 @@ update() {
 # Normal
 update "qubes-core-qubesdb"
 update "qubes-core-vchan-xen"
+update "qubes-linux-utils"
 update "qubes-seabios"
 
 # Python
