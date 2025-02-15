@@ -1,0 +1,6 @@
+= NixOS-Qubes
+
+This repository is intended for the initial development and testing of QubesOS packages and modules for NixOS.
+
+It is planned that it will be merged to NixOS later, previous version of that work (here https://github.com/NixOS/nixpkgs/pull/341215) was stalled because
+it is a little too hard to maintain all of this in-tree.
