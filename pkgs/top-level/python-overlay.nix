@@ -8,6 +8,8 @@ let
     ;
 in
 {
+  qubes-core-qrexec = callPackage ../development/python-modules/qubes-core-qrexec { };
+
   qubes-core-qubesdb =
     (pkgs.qubes-core-qubesdb.override {
       inherit python;
