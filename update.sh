@@ -17,5 +17,6 @@ update "qubes-seabios"
 # Python
 
 # Needs special care:
+# qubes-core-libvirt - patches nixpkgs libvirt
 # qubes-vmm-stubdom-linux - needs to be updated manually, or have updateScript
 # qubes-vmm-xen - xen has its own update infrastructure

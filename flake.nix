@@ -66,6 +66,7 @@
               inherit (pkgs)
                 qubes-artwork
                 qubes-core-agent-linux
+                qubes-core-libvirt
                 qubes-core-qubesdb
                 qubes-core-vchan-xen
                 qubes-gui-common
@@ -80,7 +81,7 @@
 
               # Those packages are both python3Package and normal package, choosen one is above.
               # inherit (pkgs) qubes-vmm-xen;
-              # inherit (pkgs.python3.pkgs) qubes-core-qubesdb;
+              # inherit (pkgs.python3.pkgs) qubes-core-libvirt qubes-core-qubesdb;
             };
 
             shelly.shells.default = {
