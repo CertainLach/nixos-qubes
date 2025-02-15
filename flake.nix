@@ -78,6 +78,7 @@
               inherit (pkgs.python3.pkgs)
                 qubes-core-admin-client
                 qubes-core-qrexec
+                qubes-desktop-linux-common
                 qubes-vmm-xen
                 ;
 

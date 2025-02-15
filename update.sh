@@ -17,6 +17,7 @@ update "qubes-seabios"
 # Python
 update "qubes-core-admin-client"
 update "qubes-core-qrexec"
+update "qubes-desktop-linux-common"
 
 # Needs special care:
 # qubes-core-libvirt - patches nixpkgs libvirt
