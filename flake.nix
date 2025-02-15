@@ -62,6 +62,7 @@
                 qubes-vmm-stubdom-linux
                 ;
               inherit (pkgs.python3.pkgs)
+                qubes-vmm-xen
                 ;
 
               # Those packages are both python3Package and normal package, choosen one is above.
