@@ -58,6 +58,7 @@
 
             packages = {
               inherit (pkgs)
+                qubes-core-qubesdb
                 qubes-core-vchan-xen
                 qubes-seabios
                 qubes-vmm-stubdom-linux
