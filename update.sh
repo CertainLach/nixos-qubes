@@ -8,6 +8,7 @@ update() {
 update "qubes-artwork"
 update "qubes-core-qubesdb"
 update "qubes-core-vchan-xen"
+update "qubes-gui-common"
 update "qubes-linux-utils"
 update "qubes-seabios"
 

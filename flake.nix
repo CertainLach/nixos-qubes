@@ -61,6 +61,7 @@
                 qubes-artwork
                 qubes-core-qubesdb
                 qubes-core-vchan-xen
+                qubes-gui-common
                 qubes-linux-utils
                 qubes-seabios
                 qubes-vmm-stubdom-linux
