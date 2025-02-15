@@ -8,6 +8,8 @@ let
     ;
 in
 {
+  qubes-app-linux-usb-proxy = callPackage ../development/python-modules/qubes-app-linux-usb-proxy { };
+
   qubes-core-admin-client = callPackage ../development/python-modules/qubes-core-admin-client { };
 
   qubes-core-libvirt = self.libvirt.override {
