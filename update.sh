@@ -14,6 +14,7 @@ update "qubes-desktop-linux-kde"
 update "qubes-gui-common"
 update "qubes-gui-daemon"
 update "qubes-linux-utils"
+update "qubes-manager"
 update "qubes-seabios"
 
 # Python

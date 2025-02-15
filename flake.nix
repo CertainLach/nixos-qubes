@@ -74,6 +74,7 @@
                 qubes-gui-common
                 qubes-gui-daemon
                 qubes-linux-utils
+                qubes-manager
                 qubes-seabios
                 qubes-vmm-stubdom-linux
                 ;
