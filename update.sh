@@ -5,6 +5,7 @@ update() {
 }
 
 # Normal
+update "qubes-seabios"
 
 # Python
 
