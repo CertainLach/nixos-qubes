@@ -39,11 +39,12 @@
             (self: _: { libvirt_10_5 = inputs.nixpkgs-libvirt_10_5.legacyPackages.${self.system}.libvirt; });
         flake.overlays.default = self.flake.overlays.qubesPackages;
 
-        flake.nixosModules.qubesDom0 = {
+        flake.nixosModules.qubes = {
           config.nixpkgs.overlays = [ self.flake.overlays.default ];
-          imports = [ ./nixos/modules/virtualisation/qubes-dom0.nix ];
+          imports = [ ./nixos/modules/virtualisation/qubes ];
           _file = ./flake.nix;
         };
+        flake.nixosModules.default = self.flake.nixosModules.qubes;
 
         perSystem =
           {
