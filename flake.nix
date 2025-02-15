@@ -41,6 +41,7 @@
 
         flake.nixosModules.qubesDom0 = {
           config.nixpkgs.overlays = [ self.flake.overlays.default ];
+          imports = [ ./nixos/modules/virtualisation/qubes-dom0.nix ];
           _file = ./flake.nix;
         };
 
