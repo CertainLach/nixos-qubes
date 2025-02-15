@@ -1,8 +1,9 @@
-From 4a217a930d4481d5185ce37bcdf43bbcce7d97d8 Mon Sep 17 00:00:00 2001
+From b402fc13f71ae854268fc0f98759aae1e6ecdf24 Mon Sep 17 00:00:00 2001
 From: Yaroslav Bolyukin <iam@lach.pw>
 Date: Mon, 16 Sep 2024 19:13:12 +0200
-Subject: [PATCH 1/3] refactor: template paths
+Subject: [PATCH 1/2] refactor: template paths
 
+Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
  qubesadmin/app.py                    | 21 +++------------------
  qubesadmin/backup/dispvm.py          |  5 ++++-
@@ -14,7 +15,7 @@ Subject: [PATCH 1/3] refactor: template paths
  7 files changed, 18 insertions(+), 30 deletions(-)
 
 diff --git a/qubesadmin/app.py b/qubesadmin/app.py
-index a882eea..c4541e4 100644
+index d2c9802..91225d3 100644
 --- a/qubesadmin/app.py
 +++ b/qubesadmin/app.py
 @@ -40,13 +40,7 @@ import qubesadmin.utils
@@ -53,7 +54,7 @@ index a882eea..c4541e4 100644
  
          return self._local_name
 diff --git a/qubesadmin/backup/dispvm.py b/qubesadmin/backup/dispvm.py
-index 47307dc..9c271d3 100644
+index 15a4567..1e9a126 100644
 --- a/qubesadmin/backup/dispvm.py
 +++ b/qubesadmin/backup/dispvm.py
 @@ -32,6 +32,7 @@ import qubesadmin
@@ -64,7 +65,7 @@ index 47307dc..9c271d3 100644
  
  LOCKFILE = '/var/run/qubes/backup-paranoid-restore.lock'
  
-@@ -173,9 +174,11 @@ class RestoreInDisposableVM:
+@@ -174,9 +175,11 @@ class RestoreInDisposableVM:
              ['qvm-copy-to-vm', self.dispvm_name, path],
              stdout=subprocess.DEVNULL,
              stderr=subprocess.DEVNULL)
@@ -78,10 +79,10 @@ index 47307dc..9c271d3 100644
          )
  
 diff --git a/qubesadmin/backup/restore.py b/qubesadmin/backup/restore.py
-index 6fb8a6e..e9ff515 100644
+index 54288d7..36712ee 100644
 --- a/qubesadmin/backup/restore.py
 +++ b/qubesadmin/backup/restore.py
-@@ -282,7 +282,7 @@ def launch_scrypt(action, input_name, output_name, passphrase):
+@@ -283,7 +283,7 @@ def launch_scrypt(action, input_name, output_name, passphrase):
      :param passphrase: passphrase
      :return: subprocess.Popen object
      '''
@@ -90,7 +91,7 @@ index 6fb8a6e..e9ff515 100644
      (p, pty) = launch_proc_with_pty(command_line,
          stdin=subprocess.PIPE if input_name == '-' else None,
          stdout=subprocess.PIPE if output_name == '-' else None,
-@@ -996,9 +996,9 @@ class BackupRestore(object):
+@@ -997,9 +997,9 @@ class BackupRestore(object):
  
              backup_stdin = vmproc.stdout
              if isinstance(self.app, qubesadmin.app.QubesRemote):
@@ -118,23 +119,23 @@ index d348bf6..485f404 100644
  QREXEC_SERVICES_DIR = '/etc/qubes-rpc'
  
 diff --git a/qubesadmin/device_protocol.py b/qubesadmin/device_protocol.py
-index c9c7506..e98b0db 100644
+index 4ecf303..7877fed 100644
 --- a/qubesadmin/device_protocol.py
 +++ b/qubesadmin/device_protocol.py
-@@ -422,7 +422,7 @@ class DeviceInterface:
-         #       subclass        subclass_name           <-- single tab
+@@ -814,7 +814,7 @@ class DeviceInterface:
          #               prog-if  prog-if_name   <-- two tabs
          result = {}
--        with open(f'/usr/share/hwdata/{bus}.ids',
-+        with open(f'@hwdata@/share/hwdata/{bus}.ids',
-                   encoding='utf-8', errors='ignore') as pciids:
+         with open(
+-            f"/usr/share/hwdata/{bus}.ids", encoding="utf-8", errors="ignore"
++            f"@hwdata@/share/hwdata/{bus}.ids", encoding="utf-8", errors="ignore"
+         ) as pciids:
              # for `class_name` and `subclass_name`
              # pylint: disable=used-before-assignment
 diff --git a/qubesadmin/tools/qvm_start.py b/qubesadmin/tools/qvm_start.py
-index 39fca0c..6f25da9 100644
+index 1158e96..4bb4204 100644
 --- a/qubesadmin/tools/qvm_start.py
 +++ b/qubesadmin/tools/qvm_start.py
-@@ -74,7 +74,7 @@ parser_drive.add_argument('--cdrom', metavar='IMAGE',
+@@ -75,7 +75,7 @@ parser_drive.add_argument('--cdrom', metavar='IMAGE',
  
  parser_drive.add_argument('--install-windows-tools',
      action='store_const', dest='drive', default=False,
@@ -144,12 +145,12 @@ index 39fca0c..6f25da9 100644
  
  
 diff --git a/qubesadmin/tools/qvm_start_daemon.py b/qubesadmin/tools/qvm_start_daemon.py
-index 7982b1f..4bfa590 100644
+index e03eace..9d2f353 100644
 --- a/qubesadmin/tools/qvm_start_daemon.py
 +++ b/qubesadmin/tools/qvm_start_daemon.py
-@@ -39,8 +39,8 @@ import qubesadmin.tools
- import qubesadmin.vm
- from qubesadmin.tools import xcffibhelpers
+@@ -44,8 +44,8 @@ from Xlib import X, XK
+ from Xlib.display import Display
+ from Xlib.error import DisplayConnectionError
  
 -GUI_DAEMON_PATH = '/usr/bin/qubes-guid'
 -PACAT_DAEMON_PATH = '/usr/bin/pacat-simple-vchan'
@@ -157,8 +158,8 @@ index 7982b1f..4bfa590 100644
 +PACAT_DAEMON_PATH = '@qubes_guid@/bin/pacat-simple-vchan'
  QUBES_ICON_DIR = '/usr/share/icons/hicolor/128x128/devices'
  
- GUI_DAEMON_OPTIONS = [
-@@ -319,7 +319,7 @@ def get_monitor_layout():
+ def validator_key_sequence(sequence: str) -> bool:
+@@ -394,7 +394,7 @@ def get_monitor_layout():
      """Get list of monitors and their size/position"""
      outputs = []
  
@@ -167,7 +168,7 @@ index 7982b1f..4bfa590 100644
          for line in proc.stdout:
              line = line.decode()
              if not line.startswith("Screen") and not line.startswith(" "):
-@@ -452,7 +452,7 @@ class DAEMONLauncher:
+@@ -525,7 +525,7 @@ class DAEMONLauncher:
          guid_cmd += ['-T']  # prefix window titles with VM name
          # get owner of X11 session
          session_owner = None
@@ -177,5 +178,5 @@ index 7982b1f..4bfa590 100644
                  pass
              elif line.startswith(b'SI:localuser:'):
 -- 
-2.45.2
+2.47.1
 

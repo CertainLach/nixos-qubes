@@ -1,26 +1,29 @@
-From e12a3d6151bb61d746cedc1ff497fee1eebb5f0e Mon Sep 17 00:00:00 2001
+From ace797598de5efb96d98d5dda870ea9815629917 Mon Sep 17 00:00:00 2001
 From: Yaroslav Bolyukin <iam@lach.pw>
 Date: Mon, 16 Sep 2024 19:20:55 +0200
-Subject: [PATCH 2/3] refactor: fixup paths
+Subject: [PATCH 2/2] refactor: fixup paths
 
+Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
- Makefile | 6 +++---
+ Makefile | 8 ++++----
  setup.py | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index c34bc5c..537b8c4 100644
+index ea70154..161e6c7 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -13,9 +13,9 @@ install:
+@@ -13,10 +13,10 @@ install:
  	install -d $(DESTDIR)/etc/xdg/autostart
  	install -m 0644 etc/qvm-start-daemon.desktop $(DESTDIR)/etc/xdg/autostart/
  	install -m 0644 etc/qvm-start-daemon-kde.desktop $(DESTDIR)/etc/xdg/autostart/
 -	install -d $(DESTDIR)/usr/bin
 -	ln -sf qvm-start-daemon $(DESTDIR)/usr/bin/qvm-start-gui
+-	for i in block usb pci; do ln -sf qvm-device $(DESTDIR)/usr/bin/"qvm-$$i"; done
 -	install -m 0755 scripts/qubes-guivm-session $(DESTDIR)/usr/bin/
 +	install -d $(DESTDIR)/bin
 +	ln -sf qvm-start-daemon $(DESTDIR)/bin/qvm-start-gui
++	for i in block usb pci; do ln -sf qvm-device $(DESTDIR)/bin/"qvm-$$i"; done
 +	install -m 0755 scripts/qubes-guivm-session $(DESTDIR)/bin/
  	install -d $(DESTDIR)/etc/qubes/post-install.d
  	install -m 0755 scripts/30-keyboard-layout-service.sh \
@@ -39,5 +42,5 @@ index 5c70893..fb108c8 100644
              os.makedirs(bin)
          except:
 -- 
-2.45.2
+2.47.1
 
