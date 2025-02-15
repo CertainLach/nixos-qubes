@@ -9,3 +9,4 @@ update() {
 # Python
 
 # Needs special care:
+# qubes-vmm-stubdom-linux - needs to be updated manually, or have updateScript
