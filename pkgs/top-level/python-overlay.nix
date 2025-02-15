@@ -23,6 +23,10 @@ in
       withPython = true;
     }).pythonModule;
 
+  qubes-desktop-linux-common =
+    callPackage ../development/python-modules/qubes-desktop-linux-common
+      { };
+
   qubes-imgconverter =
     (pkgs.qubes-linux-utils.override {
       inherit python;
