@@ -5,6 +5,7 @@ update() {
 }
 
 # Normal
+update "qubes-artwork"
 update "qubes-core-qubesdb"
 update "qubes-core-vchan-xen"
 update "qubes-linux-utils"

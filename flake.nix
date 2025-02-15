@@ -58,6 +58,7 @@
 
             packages = {
               inherit (pkgs)
+                qubes-artwork
                 qubes-core-qubesdb
                 qubes-core-vchan-xen
                 qubes-linux-utils
