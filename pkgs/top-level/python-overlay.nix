@@ -14,6 +14,12 @@ in
       withPython = true;
     }).pythonModule;
 
+  qubes-imgconverter =
+    (pkgs.qubes-linux-utils.override {
+      inherit python;
+      withPython = true;
+    }).imgconverter;
+
   qubes-vmm-xen = toPythonModule (
     pkgs.qubes-vmm-xen.override {
       python3Packages = self;
