@@ -15,6 +15,7 @@ update "qubes-linux-utils"
 update "qubes-seabios"
 
 # Python
+update "qubes-core-admin-client"
 update "qubes-core-qrexec"
 
 # Needs special care:
