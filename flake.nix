@@ -85,6 +85,7 @@
                 qubes-core-qrexec
                 qubes-desktop-linux-common
                 qubes-desktop-linux-manager
+                qubes-imgconverter
                 qubes-vmm-xen
                 ;
 
