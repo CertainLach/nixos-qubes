@@ -8,6 +8,11 @@ let
     ;
 in
 {
+  qubes-core-libvirt = self.libvirt.override {
+    libvirt = pkgs.qubes-core-libvirt;
+    # FIXME: Override maintainers
+  };
+
   qubes-core-qrexec = callPackage ../development/python-modules/qubes-core-qrexec { };
 
   qubes-core-qubesdb =
