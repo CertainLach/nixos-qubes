@@ -11,3 +11,4 @@ update "qubes-seabios"
 
 # Needs special care:
 # qubes-vmm-stubdom-linux - needs to be updated manually, or have updateScript
+# qubes-vmm-xen - xen has its own update infrastructure

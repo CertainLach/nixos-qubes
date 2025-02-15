@@ -65,6 +65,7 @@
                 ;
 
               # Those packages are both python3Package and normal package, choosen one is above.
+              # inherit (pkgs) qubes-vmm-xen;
             };
 
             shelly.shells.default = {
