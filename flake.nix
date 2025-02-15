@@ -59,6 +59,7 @@
             packages = {
               inherit (pkgs)
                 qubes-seabios
+                qubes-vmm-stubdom-linux
                 ;
               inherit (pkgs.python3.pkgs)
                 ;
