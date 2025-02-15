@@ -24,6 +24,35 @@ let
     hash = "sha256-+RGa1mpHAlxwdr/5Tw0rDXlQ4tfeHQ92m/mgvy733d4=";
   };
 
+  imgconverter = python.pkgs.buildPythonPackage {
+    inherit src version;
+    pname = "qubes-linux-utils-imgconverter";
+
+    sourceRoot = "${src.name}/imgconverter";
+
+    nativeBuildInputs = [
+      pkg-config
+    ];
+
+    build-system = [
+      python.pkgs.setuptools
+    ];
+
+    propagatedBuildInputs = [
+      python.pkgs.pilkit
+      python.pkgs.numpy
+      python.pkgs.pycairo
+      graphicsmagick
+    ];
+
+    makeFlags = [
+      "DESTDIR=$(out)"
+      "LIBDIR=/lib"
+      "PYTHON_PREFIX_ARG=--prefix=."
+    ];
+
+    pythonImportsCheck = [ "qubesimgconverter" ];
+  };
 in
 stdenv.mkDerivation {
   inherit version src;
@@ -74,6 +103,10 @@ stdenv.mkDerivation {
     "SBINDIR=/bin"
     "CFLAGS=-DUSE_XENSTORE_H"
   ];
+
+  passthru = optionalAttrs withPython {
+    inherit imgconverter;
+  };
 
   meta = {
     description = "Qubes common linux integration hooks";
