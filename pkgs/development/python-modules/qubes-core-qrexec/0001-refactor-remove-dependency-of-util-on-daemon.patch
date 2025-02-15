@@ -1,24 +1,25 @@
-From f74f3e966d6ca5d4d806714c83431717c6ce7ffb Mon Sep 17 00:00:00 2001
+From cae3b1c67450fc7e59acdeddd75eb8d449ba0171 Mon Sep 17 00:00:00 2001
 From: Yaroslav Bolyukin <iam@lach.pw>
-Date: Sun, 14 Sep 2024 11:45:07 +0200
+Date: Sun, 15 Sep 2024 02:45:07 +0200
 Subject: refactor: remove dependency of util on daemon
 
+Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
  qrexec.h | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/qrexec.h b/qrexec.h
-index a8fc06b..a507825 100644
+index ec0d44a..c1e472d 100644
 --- a/qrexec.h
 +++ b/qrexec.h
-@@ -165,7 +165,6 @@ enum {
+@@ -164,7 +164,6 @@ enum {
+ #define QREXEC_AGENT_FDPASS_PATH "/var/run/qubes/qrexec-agent-fdpass"
  #define MEMINFO_WRITER_PIDFILE "/var/run/meminfo-writer.pid"
- #define QUBES_RPC_MULTIPLEXER_PATH "/usr/lib/qubes/qubes-rpc-multiplexer"
  #define QREXEC_DAEMON_SOCKET_DIR "/var/run/qubes"
 -#define QREXEC_POLICY_PROGRAM "/usr/bin/qrexec-policy-exec"
  #define QREXEC_SERVICE_PATH "/usr/local/etc/qubes-rpc:/etc/qubes-rpc"
  
  // directory for services configuration (for example 'wait-for-session' flag)
 -- 
-2.45.2
+2.47.1
 

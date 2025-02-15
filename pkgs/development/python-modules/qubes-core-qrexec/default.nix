@@ -45,8 +45,7 @@ let
     postPatch = ''
       substituteInPlace qrexec/client.py \
         --replace-fail "/usr/bin/qrexec-client-vm" "${domU}/bin/qrexec-client-vm" \
-        --replace-fail "/usr/bin/qrexec-client" "${dom0-bootstrap}/lib/qubes/qrexec-client" \
-        --replace-fail "/usr/lib/qubes/qubes-rpc-multiplexer" "${util}/libexec/qubes-rpc-multiplexer"
+        --replace-fail "/usr/bin/qrexec-client" "${dom0-bootstrap}/lib/qubes/qrexec-client"
       substituteInPlace policy-agent-extra/qrexec-policy-agent.desktop \
         --replace-fail "Exec=/usr/lib/qubes/qrexec-policy-agent-autostart" "Exec=$out/lib/qubes/qrexec-policy-agent-autostart"
     '';
@@ -198,12 +197,6 @@ let
     patches = [
       ./0001-refactor-remove-dependency-of-util-on-daemon.patch
     ];
-
-    postPatch = ''
-      # rpc-multiplexer is included in both util and base packages to fix dependency cycle.
-      substituteInPlace qrexec.h \
-        --replace-fail "/usr/lib/qubes/qubes-rpc-multiplexer" "$out/libexec/qubes-rpc-multiplexer"
-    '';
 
     postInstall = ''
       mkdir -p $out/libexec
