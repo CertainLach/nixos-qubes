@@ -1,5 +1,4 @@
 {
-  python,
   buildPythonPackage,
   fetchFromGitHub,
   gettext,
@@ -40,8 +39,9 @@ buildPythonPackage {
   postInstall = ''
     make install DESTDIR=$out
     mv $out/usr/bin/* $out/bin/
+    mv $out/usr/lib/* $out/lib/
     mv $out/usr/share $out/
-    rm -d $out/usr/{bin,}
+    rm -d $out/usr/{bin,lib,}
   '';
 
   # buildFlags = ["all"];
