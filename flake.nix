@@ -3,6 +3,10 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/master";
     };
+    # Qubes has outdated libvirt version
+    nixpkgs-libvirt_10_5 = {
+      url = "github:NixOS/nixpkgs/e0464e47880a69896f0fb1810f00e0de469f770a";
+    };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -28,9 +32,11 @@
         systems = [ "x86_64-linux" ];
 
         flake.overlays.qubesPackages =
-          composeExtensions (import ./pkgs/top-level/overlay.nix) (
-            import "${inputs.nixpkgs}/pkgs/top-level/by-name-overlay.nix" ./pkgs/by-name
-          );
+          composeExtensions
+            (composeExtensions (import ./pkgs/top-level/overlay.nix) (
+              import "${inputs.nixpkgs}/pkgs/top-level/by-name-overlay.nix" ./pkgs/by-name
+            ))
+            (self: _: { libvirt_10_5 = inputs.nixpkgs-libvirt_10_5.legacyPackages.${self.system}.libvirt; });
         flake.overlays.default = self.flake.overlays.qubesPackages;
 
         flake.nixosModules.qubesDom0 = {
