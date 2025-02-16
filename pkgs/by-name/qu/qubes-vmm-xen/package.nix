@@ -33,7 +33,7 @@ in
   {
     pname = "qubes-vmm-xen";
     inherit version;
-    upstreamVersion = "${version}-${revision}";
+    upstreamVersion = version;
     vendor = "qubes";
 
     withSeaBIOS = true;
