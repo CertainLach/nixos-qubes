@@ -3,9 +3,13 @@ self: super: {
 
   qemu_qubes = self.lib.lowPrio (
     self.qemu.override {
-      hostCpuTargets = [ "i386-softmmu" ];
       xenSupport = true;
       xen = self.qubes-vmm-xen;
+      minimal = true;
+
+      enableTools = true;
+      enableBlobs = true;
+      enableDocs = true;
     }
   );
 }
