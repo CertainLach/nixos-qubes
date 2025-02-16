@@ -1,0 +1,114 @@
+From 6dbc2a81da36bfa5346220f7ce6138b44fd001f1 Mon Sep 17 00:00:00 2001
+From: Yaroslav Bolyukin <iam@lach.pw>
+Date: Sun, 16 Feb 2025 19:46:01 +0100
+Subject: [PATCH 3/3] refactor: drop gbulb dependency
+
+Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+---
+ ci/requirements.txt                 |  1 -
+ debian/control                      |  1 -
+ qrexec/tools/qrexec_policy_agent.py | 21 +++++++++++++++------
+ rpm_spec/qubes-qrexec.spec.in       |  1 -
+ run-tests                           |  2 +-
+ 5 files changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/ci/requirements.txt b/ci/requirements.txt
+index e6ce3f6..5a3d759 100644
+--- a/ci/requirements.txt
++++ b/ci/requirements.txt
+@@ -6,4 +6,3 @@ sphinx
+ pytest-asyncio
+ pyinotify
+ psutil
+-gbulb
+diff --git a/debian/control b/debian/control
+index bc12ba5..ee90389 100644
+--- a/debian/control
++++ b/debian/control
+@@ -10,7 +10,6 @@ Build-Depends:
+  dh-python,
+  lsb-release,
+  python3-setuptools,
+- python3-gbulb,
+  pandoc,
+ Standards-Version: 4.4.0.1
+ Homepage: https://www.qubes-os.org
+diff --git a/qrexec/tools/qrexec_policy_agent.py b/qrexec/tools/qrexec_policy_agent.py
+index 4ea6458..ef5d555 100644
+--- a/qrexec/tools/qrexec_policy_agent.py
++++ b/qrexec/tools/qrexec_policy_agent.py
+@@ -35,12 +35,10 @@ import gi
+ 
+ gi.require_version("Gtk", "3.0")
+ from gi.repository import Gtk, Gdk, GdkPixbuf, GLib, Gio
++from gi.events import GLibEventLoopPolicy
+ 
+ # pylint: enable=import-error
+ 
+-# pylint: disable=wrong-import-order
+-import gbulb
+-
+ from .. import POLICY_AGENT_SOCKET_PATH
+ from ..utils import sanitize_domain_name, sanitize_service_name
+ from ..server import SocketService
+@@ -500,7 +498,16 @@ class RPCConfirmationWindow:
+         self._rpc_window.close()
+ 
+     async def _wait_for_close(self):
+-        await gbulb.wait_signal(self._rpc_window, "delete-event")
++        future = asyncio.Future()
++        hnd = None
++        def _delete_callback(*k):
++            self._rpc_window.disconnect(hnd)
++            future.set_result(k)
++        hnd = self._rpc_window.connect(
++            "delete-event",
++            _delete_callback,
++        )
++        await future
+ 
+     def _show(self):
+         self._rpc_window.set_keep_above(True)
+@@ -660,10 +667,12 @@ parser.add_argument(
+ def main():
+     args = parser.parse_args()
+ 
+-    gbulb.install()
++    asyncio.set_event_loop_policy(GLibEventLoopPolicy())
++    loop = asyncio.get_event_loop()
++
+     agent = PolicyAgent(args.socket_path)
+ 
+-    asyncio.run(agent.run())
++    loop.run_until_complete(agent.run())
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/rpm_spec/qubes-qrexec.spec.in b/rpm_spec/qubes-qrexec.spec.in
+index a2eaab3..4a3e6e9 100644
+--- a/rpm_spec/qubes-qrexec.spec.in
++++ b/rpm_spec/qubes-qrexec.spec.in
+@@ -46,7 +46,6 @@ BuildRequires:  python%{python3_pkgversion}-rpm-macros
+ %endif
+ 
+ Requires:   python%{python3_pkgversion}
+-Requires:   python%{python3_pkgversion}-gbulb
+ %if 0%{?is_opensuse}
+ Requires:   python%{python3_pkgversion}-pyinotify
+ %else
+diff --git a/run-tests b/run-tests
+index 33e2cff..b5138dd 100755
+--- a/run-tests
++++ b/run-tests
+@@ -2,7 +2,7 @@
+ 
+ case $0 in (/*) cd "${0%/*}/";; (*/*) cd "./${0%/*}";; esac
+ if command -v dnf >/dev/null; then
+-    sudo dnf install python3dist\({coverage,pytest,gbulb,pyinotify,pytest-asyncio}\) || :
++    sudo dnf install python3dist\({coverage,pytest,pyinotify,pytest-asyncio}\) || :
+ fi
+ if pkg-config vchan-socket; then
+     if [[ -n "${USE_ASAN-}" ]]; then
+-- 
+2.47.2
+
