@@ -66,11 +66,10 @@ buildPythonPackage {
 
   patches = [
     ./0001-refactor-use-mutable-systemd.patch
-    ./0002-fix-broken-qvm-device-symlinks.patch
     (substituteAll {
       # Note that out is substituted using %out%, and the actual
       # substitution is done in postPatch
-      src = ./0003-refactor-template-paths.patch;
+      src = ./0002-refactor-template-paths.patch;
       env = {
         inherit killall hwdata coreutils;
         qubes_client = qubes-core-admin-client;
@@ -85,8 +84,8 @@ buildPythonPackage {
         qubes_vmm_xen = pkgs.qubes-vmm-xen;
       };
     })
-    ./0004-fix-fixup-paths.patch
-    ./0005-fix-python-prefix-arg.patch
+    ./0003-fix-fixup-paths.patch
+    ./0004-fix-python-prefix-arg.patch
   ];
 
   postPatch = ''

@@ -1,8 +1,9 @@
-From 6a7a20222a5511748ff8fbe6cafc477299acb999 Mon Sep 17 00:00:00 2001
+From a2406fdd04eb02a74944f55c47e1e7ca9f030d44 Mon Sep 17 00:00:00 2001
 From: Yaroslav Bolyukin <iam@lach.pw>
 Date: Mon, 16 Sep 2024 18:54:14 +0200
-Subject: [PATCH 4/6] fix: fixup paths
+Subject: [PATCH 3/4] fix: fixup paths
 
+Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
  Makefile                        | 19 +++++--------------
  doc/Makefile                    |  4 ++--
@@ -17,10 +18,10 @@ Subject: [PATCH 4/6] fix: fixup paths
  10 files changed, 21 insertions(+), 30 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 89cc36fc..05fe8910 100644
+index 852186ff..9361ab8d 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -188,7 +188,6 @@ ifeq ($(BACKEND_VMM),xen)
+@@ -190,7 +190,6 @@ ifeq ($(BACKEND_VMM),xen)
  endif
  	mkdir -p $(DESTDIR)/etc/qubes-rpc
  	mkdir -p $(DESTDIR)/etc/qubes/policy.d
@@ -28,7 +29,7 @@ index 89cc36fc..05fe8910 100644
  	install -m 0644 qubes-rpc-policy/90-default.policy \
  		$(DESTDIR)/etc/qubes/policy.d/90-default.policy
  	install -m 0644 qubes-rpc-policy/85-admin-backup-restore.policy \
-@@ -199,12 +198,12 @@ endif
+@@ -201,12 +200,12 @@ endif
  	cp qubes-rpc/qubes.NotifyTools $(DESTDIR)/etc/qubes-rpc/
  	cp qubes-rpc/qubes.NotifyUpdates $(DESTDIR)/etc/qubes-rpc/
  	cp qubes-rpc/qubes.ConnectTCP $(DESTDIR)/etc/qubes-rpc/
@@ -46,7 +47,7 @@ index 89cc36fc..05fe8910 100644
  			$(DESTDIR)/etc/qubes-rpc/$$method || exit 1; \
  	done
  	install qubes-rpc/admin.vm.volume.Import $(DESTDIR)/etc/qubes-rpc/
-@@ -238,14 +237,6 @@ endif
+@@ -242,14 +241,6 @@ endif
  	mkdir -p "$(DESTDIR)$(DOCDIR)"
  	cp qubes/storage/callback.json.example "$(DESTDIR)$(DOCDIR)/qubes_callback.json.example"
  
@@ -121,7 +122,7 @@ index 68ce7f50..74928d2f 100644
 +	install -m 0755 create-snapshot destroy-snapshot $(DESTDIR)/lib/qubes
 +	install -m 0644 -D tmpfiles-qubes.conf $(DESTDIR)/lib/tmpfiles.d/qubes.conf
 diff --git a/qvm-tools/qubes-hcl-report b/qvm-tools/qubes-hcl-report
-index 831b04d6..6e8ad6cc 100755
+index d71b76a3..13770fd7 100755
 --- a/qvm-tools/qubes-hcl-report
 +++ b/qvm-tools/qubes-hcl-report
 @@ -1,4 +1,4 @@
@@ -131,7 +132,7 @@ index 831b04d6..6e8ad6cc 100755
  # The Qubes OS Project, https://www.qubes-os.org
  #
 diff --git a/qvm-tools/qvm-console-dispvm b/qvm-tools/qvm-console-dispvm
-index 73a0f79d..5dc44267 100755
+index 95959e6a..6ad3181e 100755
 --- a/qvm-tools/qvm-console-dispvm
 +++ b/qvm-tools/qvm-console-dispvm
 @@ -1,4 +1,4 @@
@@ -174,5 +175,5 @@ index 69bace60..442706ef 100644
              os.makedirs(bin)
          except:
 -- 
-2.45.2
+2.47.1
 

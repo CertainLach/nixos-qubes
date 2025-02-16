@@ -1,8 +1,9 @@
-From 6dd10e7dcb2406958ec7407d4cd34aee9639e223 Mon Sep 17 00:00:00 2001
+From 5c28bcc049791a984acfda6b24f537a63db2643c Mon Sep 17 00:00:00 2001
 From: Yaroslav Bolyukin <iam@lach.pw>
 Date: Mon, 16 Sep 2024 18:54:09 +0200
-Subject: [PATCH 3/6] refactor: template paths
+Subject: [PATCH 2/4] refactor: template paths
 
+Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
  linux/aux-tools/startup-misc.sh              | 4 ++--
  linux/systemd/qubes-core.service             | 6 +++---
@@ -45,7 +46,7 @@ index 03822727..6a282fe5 100755
  if [ -e /sys/module/grant_table/parameters/free_per_iteration ]; then
      echo 1000 > /sys/module/grant_table/parameters/free_per_iteration
 diff --git a/linux/systemd/qubes-core.service b/linux/systemd/qubes-core.service
-index 34ce40fd..0239d420 100644
+index 3786250e..77a11dc0 100644
 --- a/linux/systemd/qubes-core.service
 +++ b/linux/systemd/qubes-core.service
 @@ -9,11 +9,11 @@ StandardOutput=syslog
@@ -105,10 +106,10 @@ index 7ccfb53b..f81175fe 100644
  RemainAfterExit=yes
  
 diff --git a/linux/systemd/qubesd.service b/linux/systemd/qubesd.service
-index 44711761..a44e1d49 100644
+index 8aa275e9..d0bb026c 100644
 --- a/linux/systemd/qubesd.service
 +++ b/linux/systemd/qubesd.service
-@@ -4,7 +4,7 @@ Before=systemd-user-sessions.service
+@@ -6,7 +6,7 @@ Before=systemd-user-sessions.service
  
  [Service]
  Type=notify
@@ -161,83 +162,83 @@ index f51e4fc2..3270821e 100755
 +exec @qubesdb_client@/bin/qubesd-query -c /var/run/qubesd.misc.sock --fail \
           "$QREXEC_REMOTE_DOMAIN" qubes.NotifyUpdates dom0 "" >/dev/null 2>&1
 diff --git a/qubes/app.py b/qubes/app.py
-index 2a00355b..5fd49bbe 100644
+index 1017d171..9c7f0d0c 100644
 --- a/qubes/app.py
 +++ b/qubes/app.py
-@@ -936,7 +936,7 @@ class Qubes(qubes.PropertyHolder):
-         self.env = jinja2.Environment(
-             loader=jinja2.FileSystemLoader([
-                 '/etc/qubes/templates',
--                '/usr/share/qubes/templates',
-+                '%out%/share/qubes/templates',
-             ]),
+@@ -1026,7 +1026,7 @@ class Qubes(qubes.PropertyHolder):
+             loader=jinja2.FileSystemLoader(
+                 [
+                     "/etc/qubes/templates",
+-                    "/usr/share/qubes/templates",
++                    '%out%/share/qubes/templates',
+                 ]
+             ),
              undefined=jinja2.StrictUndefined,
-             autoescape=True)
 diff --git a/qubes/config.py b/qubes/config.py
-index d44ff035..9556926a 100644
+index 2a54b1f1..f8f1a70c 100644
 --- a/qubes/config.py
 +++ b/qubes/config.py
-@@ -30,10 +30,10 @@ import os.path
- 
+@@ -52,10 +52,10 @@ class Defaults(TypedDict):
  qubes_base_dir = "/var/lib/qubes"
- system_path = {
--    'qrexec_daemon_path': '/usr/sbin/qrexec-daemon',
--    'qrexec_client_path': '/usr/bin/qrexec-client',
--    'qrexec_rpc_multiplexer': '/usr/lib/qubes/qubes-rpc-multiplexer',
--    'qubesdb_daemon_path': '/usr/sbin/qubesdb-daemon',
-+    'qrexec_daemon_path': '@qrexec_dom0@/libexec/qrexec-daemon',
-+    'qrexec_client_path': '@qrexec_dom0@/bin/qrexec-client',
-+    'qrexec_rpc_multiplexer': '@qrexec_util@/libexec/qubes-rpc-multiplexer',
-+    'qubesdb_daemon_path': '@qubesdb_daemon@/bin/qubesdb-daemon',
  
+ system_path = {
+-    "qrexec_daemon_path": "/usr/sbin/qrexec-daemon",
+-    "qrexec_client_path": "/usr/bin/qrexec-client",
+-    "qrexec_rpc_multiplexer": "/usr/lib/qubes/qubes-rpc-multiplexer",
+-    "qubesdb_daemon_path": "/usr/sbin/qubesdb-daemon",
++    "qrexec_daemon_path": "@qrexec_dom0@/libexec/qrexec-daemon",
++    "qrexec_client_path": "@qrexec_dom0@/bin/qrexec-client",
++    "qrexec_rpc_multiplexer": "@qrexec_util@/libexec/qubes-rpc-multiplexer",
++    "qubesdb_daemon_path": "@qubesdb_daemon@/bin/qubesdb-daemon",
      # Relative to qubes_base_dir
-     'qubes_appvms_dir': 'appvms',
+     "qubes_appvms_dir": "appvms",
+     "qubes_templates_dir": "vm-templates",
 diff --git a/qubes/device_protocol.py b/qubes/device_protocol.py
-index 3d8b9aaa..c5e215c4 100644
+index e84af6d1..5001b235 100644
 --- a/qubes/device_protocol.py
 +++ b/qubes/device_protocol.py
-@@ -400,7 +400,7 @@ class DeviceInterface:
-         #       subclass        subclass_name           <-- single tab
+@@ -813,7 +813,7 @@ class DeviceInterface:
          #               prog-if  prog-if_name   <-- two tabs
          result = {}
--        with open(f'/usr/share/hwdata/{bus}.ids',
-+        with open(f'@hwdata@/share/hwdata/{bus}.ids',
-                   encoding='utf-8', errors='ignore') as pciids:
+         with open(
+-            f"/usr/share/hwdata/{bus}.ids", encoding="utf-8", errors="ignore"
++            f"@hwdata@/share/hwdata/{bus}.ids", encoding="utf-8", errors="ignore"
+         ) as pciids:
              # for `class_name` and `subclass_name`
              # pylint: disable=used-before-assignment
 diff --git a/qubes/ext/pci.py b/qubes/ext/pci.py
-index 1535a7f9..5ac33fd9 100644
+index 934d0fab..9169347b 100644
 --- a/qubes/ext/pci.py
 +++ b/qubes/ext/pci.py
-@@ -54,7 +54,7 @@ def load_pci_classes():
-     #       subclass        subclass_name           <-- single tab
+@@ -56,7 +56,7 @@ def load_pci_classes():
      #               prog-if  prog-if_name   <-- two tabs
      result = {}
--    with open('/usr/share/hwdata/pci.ids',
-+    with open('@hwdata@/share/hwdata/pci.ids',
-               encoding='utf-8', errors='ignore') as pciids:
+     with open(
+-        "/usr/share/hwdata/pci.ids", encoding="utf-8", errors="ignore"
++        "@hwdata@/share/hwdata/pci.ids", encoding="utf-8", errors="ignore"
+     ) as pciids:
          class_id = None
          subclass_id = None
 diff --git a/qubes/storage/file.py b/qubes/storage/file.py
-index 74161ac1..94ee2de4 100644
+index d47ff739..64e0ad9b 100644
 --- a/qubes/storage/file.py
 +++ b/qubes/storage/file.py
 @@ -34,8 +34,8 @@ import qubes.storage
  import qubes.utils
  
  BLKSIZE = 512
--CREATE_SCRIPT = '/usr/lib/qubes/create-snapshot'
--DESTROY_SCRIPT = '/usr/lib/qubes/destroy-snapshot'
-+CREATE_SCRIPT = '%out%/lib/qubes/create-snapshot'
-+DESTROY_SCRIPT = '%out%/lib/qubes/destroy-snapshot'
+-CREATE_SCRIPT = "/usr/lib/qubes/create-snapshot"
+-DESTROY_SCRIPT = "/usr/lib/qubes/destroy-snapshot"
++CREATE_SCRIPT = "%out%/lib/qubes/create-snapshot"
++DESTROY_SCRIPT = "%out%/lib/qubes/destroy-snapshot"
  
  # 256 KiB chunk, same as in create-snapshot script. Header created by
  # struct.pack('<4I', 0x70416e53, 1, 1, 256) mimicking write_header()
 diff --git a/qubes/vm/qubesvm.py b/qubes/vm/qubesvm.py
-index 49b2540d..85cb4b08 100644
+index bce0d7fb..e24eee44 100644
 --- a/qubes/vm/qubesvm.py
 +++ b/qubes/vm/qubesvm.py
-@@ -1815,6 +1815,9 @@ class QubesVM(qubes.vm.mix.net.NetVMMixin, qubes.vm.BaseVM):
+@@ -2042,6 +2042,9 @@ class QubesVM(qubes.vm.mix.net.NetVMMixin, qubes.vm.BaseVM):
          if not self.debug:
              qrexec_args.insert(0, "-q")
  
@@ -245,13 +246,13 @@ index 49b2540d..85cb4b08 100644
 +        qrexec_args.insert(0, "--policy-program=@qrexec_client@/bin/qrexec-policy-exec")
 +
          qrexec_env = os.environ.copy()
-         if not self.features.check_with_template('qrexec', False):
+         if not self.features.check_with_template("qrexec", False):
              self.log.debug(
 diff --git a/templates/libvirt/xen.xml b/templates/libvirt/xen.xml
-index a9ce7c1d..43d64617 100644
+index 7d8974cd..8ea36048 100644
 --- a/templates/libvirt/xen.xml
 +++ b/templates/libvirt/xen.xml
-@@ -204,8 +204,8 @@
+@@ -210,8 +210,8 @@
                      {% endif %}
                      {% if vm.features.check_with_template('audio-model', False)
                      or vm.features.check_with_template('stubdom-qrexec', False) %}
@@ -263,5 +264,5 @@ index a9ce7c1d..43d64617 100644
                      />
                  <input type="tablet" bus="usb"/>
 -- 
-2.45.2
+2.47.1
 
