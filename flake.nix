@@ -79,6 +79,7 @@
                 qubes-manager
                 qubes-seabios
                 qubes-vmm-stubdom-linux
+                qemu_qubes
                 ;
               inherit (pkgs.python3.pkgs)
                 qubes-app-linux-usb-proxy
