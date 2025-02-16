@@ -257,7 +257,7 @@ in
     systemd.tmpfiles.packages = [
       qubes-core-admin
       qubes-linux-utils
-    ];
+    ] ++ lib.optional isDom0 qubes-core-qrexec.dom0;
     systemd.tmpfiles.settings."10-qubes" =
       {
         # Qubes daemons are configured to install qube autostart units here
