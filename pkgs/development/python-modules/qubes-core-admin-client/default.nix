@@ -11,6 +11,7 @@
   lxml,
   pyaml,
   xcffib,
+  xlib,
   socat,
   substituteAll,
   bash,
@@ -82,6 +83,7 @@ buildPythonPackage {
     lxml
     pyaml
     xcffib
+    xlib
     qubes-core-qubesdb
 
     # Script dependencies
