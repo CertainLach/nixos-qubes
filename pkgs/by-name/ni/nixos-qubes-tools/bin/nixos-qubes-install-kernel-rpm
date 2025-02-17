@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -eu
+
+name=$1
+kernelver=$2
+fedoraver=$3
+rpmkernel=$4
+rpmmodules=$5
+
+destdir=/var/lib/qubes/vm-kernels/$name
+
+dir=$(mktemp -d)
+cd "$dir" || exit 1
+
+rpmextract "$rpmkernel"
+rpmextract "$rpmmodules"
+
+kerneldir=$dir/var/lib/qubes/vm-kernels/$kernelver.$fedoraver
+moduledir=$dir/lib/modules/$kernelver.qubes.$fedoraver.$(uname -m)
+
+ls -lah "$dir/"
+
+if ! test -f "$kerneldir/vmlinuz"; then
+	ls "$kerneldir/../"
+	ls "$kerneldir"
+	echo "kernel with specified name is not found in kernel rpm"
+	exit 1
+fi
+if ! test -f "$moduledir/modules.builtin"; then
+	echo "modules dir with specified name is not found in modules rpm"
+	exit 1
+fi
+
+truncate -s 512M modules.img
+mkfs.ext4 -d "$moduledir" -F modules.img
+
+mv modules.img "$kerneldir/"
+
+rsync -arv "$kerneldir/" "$destdir"

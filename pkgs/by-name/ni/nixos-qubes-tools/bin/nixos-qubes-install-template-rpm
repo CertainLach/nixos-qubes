@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -eu
+
+template_name=$1
+template_file=$2
+
+dir=$(mktemp -d)
+cd "$dir" || exit 1
+
+rpmextract "$template_file"
+
+srcdir=$dir/var/lib/qubes/vm-templates/$template_name
+
+if ! test -f "$srcdir/template.conf"; then
+	echo "template with specified name is not found in rpm"
+	exit 1
+fi
+ln -s "$template_file" "$srcdir/template.rpm"
+
+qvm-template-postprocess --really post-install "$template_name" "$srcdir"
