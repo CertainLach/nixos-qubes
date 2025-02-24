@@ -32,11 +32,13 @@
         systems = [ "x86_64-linux" ];
 
         flake.overlays.qubesPackages =
-          composeExtensions
+
+          composeExtensions (composeExtensions
             (composeExtensions (import ./pkgs/top-level/overlay.nix) (
               import "${inputs.nixpkgs}/pkgs/top-level/by-name-overlay.nix" ./pkgs/by-name
             ))
-            (self: _: { libvirt_10_5 = inputs.nixpkgs-libvirt_10_5.legacyPackages.${self.system}.libvirt; });
+            (self: _: { libvirt_10_5 = inputs.nixpkgs-libvirt_10_5.legacyPackages.${self.system}.libvirt; })
+          ) (import ./nix/overlay.nix);
         flake.overlays.default = self.overlays.qubesPackages;
 
         flake.nixosModules.qubes = {
@@ -62,6 +64,13 @@
               overlays = [
                 self.overlays.qubesPackages
               ];
+              config.allowUnfreePredicate =
+                pkg:
+                builtins.elem (pkg.pname or pkg.name) [
+                  # Redistributable & consists of free licenses,
+                  # see the comment in that package.
+                  "qubes-vmm-stubdom-linux"
+                ];
             };
 
             packages = {
@@ -80,6 +89,7 @@
                 qubes-seabios
                 qubes-vmm-stubdom-linux
                 qemu_qubes
+                nixos-qubes-tools
                 ;
               inherit (pkgs.python3.pkgs)
                 qubes-app-linux-usb-proxy
@@ -92,6 +102,15 @@
                 qubes-vmm-xen
                 ;
 
+              # Sub-packages
+              qubes-gui-daemon-xwayland = pkgs.qubes-gui-daemon.xwayland;
+              qubes-core-qubesdb-daemon = pkgs.qubes-core-qubesdb.daemon;
+
+              # WIP packages
+              inherit (pkgs)
+                fedora41Kernel
+                ;
+
               # Those packages are both python3Package and normal package, choosen one is above.
               # inherit (pkgs) qubes-vmm-xen;
               # inherit (pkgs.python3.pkgs) qubes-core-libvirt qubes-core-qubesdb;
@@ -100,6 +119,7 @@
             shelly.shells.default = {
               packages = [
                 pkgs.nix-update
+                (pkgs.python3.withPackages (ps: with ps; [ qubes-core-admin-client ]))
               ];
             };
             formatter = treefmt.wrapper;
