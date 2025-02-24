@@ -9,18 +9,19 @@
 let
   qubesVersion = "4.3";
   fedoraVersion = "41";
-  version = "4.3.1-1";
+  version = "4.3.3-1";
   stubdom = fetchurl {
     url = "https://ftp.qubes-os.org/repo/yum/r${qubesVersion}/current-testing/dom0/fc${fedoraVersion}/rpm/xen-hvm-stubdom-linux-${version}.fc${fedoraVersion}.x86_64.rpm";
-    hash = "sha256-OHyUTB3AwVFdmLOwUSNmNCI1lmMPh1PzHd/H5r2oTN4=";
+    hash = "sha256-Dw900E4PytErrHjgcTdQxKxVWSO/yIk0tvSmPYVXdlg=";
   };
   stubdom-full = fetchurl {
     url = "https://ftp.qubes-os.org/repo/yum/r${qubesVersion}/current-testing/dom0/fc${fedoraVersion}/rpm/xen-hvm-stubdom-linux-full-${version}.fc${fedoraVersion}.x86_64.rpm";
-    hash = "sha256-qMHZ5ouw62GoaQqWeEcph1ddJ5o4kcQJp9TuiW81R2s=";
+    hash = "sha256-tpeyE+orVD1EhkqFJb+s4P7SRUUMysgguaRx7/LhV7I=";
   };
 in
 stdenv.mkDerivation {
-  name = "qubes-vmm-stubdom-linux";
+  inherit version;
+  pname = "qubes-vmm-stubdom-linux";
   src = null;
   unpackPhase = "true";
   buildPhase = "true";
