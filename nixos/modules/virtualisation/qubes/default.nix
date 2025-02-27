@@ -589,6 +589,10 @@ in
     # It is possible to have VMs backed by filesystem, but lets assume configuration preferred by
     # QubesOS - VM thin pool.
     # I haven't figured out why it is required, but manual vgchange -a y qubes-pool is required if only dm-thin-pool module is present.
-    services.lvm.boot.thin.enable = mkIf isDom0 true;
+    services.lvm = {
+      enable = true;
+      boot.thin.enable = mkIf isDom0 true;
+    };
+    boot.initrd.services.lvm.enable = true;
   };
 }
