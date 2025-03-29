@@ -18,13 +18,13 @@ let
     lxml
     ;
 
-  version = "4.3.8-1";
+  version = "4.3.11-1";
 
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-manager";
     rev = "refs/tags/v${version}";
-    hash = "sha256-j3r4UhDEKFPN1+lw1DONZaeLlL2xl/MdWgKuOPAoOok=";
+    hash = "sha256-1QFIEOoeNkZlKFpwwVrBqUwYEs/M7dHTZDz2K33ssbs=";
   };
 in
 buildPythonApplication {
