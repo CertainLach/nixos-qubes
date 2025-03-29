@@ -30,7 +30,7 @@ let
       substituteInPlace qubes-db.service \
         --replace-fail " fedora-loadmodules.service" ""
       substituteInPlace *.service \
-        --replace-fail "ExecStart=/usr/sbin/qubesdb-daemon" "ExecStart=$out/bin/qubesdb-daemon"
+        --replace-fail "ExecStart=/usr/bin/qubesdb-daemon" "ExecStart=$out/bin/qubesdb-daemon"
     '';
 
     nativeBuildInputs = [
