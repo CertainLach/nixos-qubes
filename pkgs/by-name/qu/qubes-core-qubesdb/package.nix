@@ -11,12 +11,12 @@
 let
   inherit (lib) optionals optionalAttrs;
 
-  version = "4.2.7";
+  version = "4.3.0";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-qubesdb";
     rev = "refs/tags/v${version}";
-    hash = "sha256-UZ2E/xYxoyd6PqZjLtot5gzUQrYpTx/3HTPi8XTkkBM=";
+    hash = "sha256-0+ZBKbamsjW2RmVMPut3OGIMF9ty2+bdBLIGodgzjpY=";
   };
 
   daemon = stdenv.mkDerivation {
