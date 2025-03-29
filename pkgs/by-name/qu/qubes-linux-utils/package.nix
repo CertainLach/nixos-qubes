@@ -64,7 +64,7 @@ stdenv.mkDerivation {
       --replace-fail "\$(MAKE) -C imgconverter all" "" \
       --replace-fail "\$(MAKE) -C imgconverter install" ""
     substituteInPlace qmemman/*.service \
-      --replace-fail "ExecStart=/usr/sbin/meminfo-writer" "ExecStart=$out/bin/meminfo-writer"
+      --replace-fail "ExecStart=/usr/bin/meminfo-writer" "ExecStart=$out/bin/meminfo-writer"
   '';
 
   nativeBuildInputs = [
