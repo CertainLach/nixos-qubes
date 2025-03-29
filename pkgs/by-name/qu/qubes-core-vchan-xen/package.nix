@@ -5,12 +5,12 @@
   qubes-vmm-xen,
 }:
 let
-  version = "4.2.6";
+  version = "4.2.7";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-vchan-xen";
     rev = "refs/tags/v${version}";
-    hash = "sha256-ZKzfM93bPIR8ijacW1Zlmv0T8kw/QSGeyfy9pqSIBCI=";
+    hash = "sha256-yMCLduZUK7EW3QL82p7hJTMoDsivI+r76LEFsS8brxU=";
   };
 in
 stdenv.mkDerivation {
