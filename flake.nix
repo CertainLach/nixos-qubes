@@ -70,6 +70,8 @@
                   # Redistributable & consists of free licenses,
                   # see the comment in that package.
                   "qubes-vmm-stubdom-linux"
+                  # Redistributable
+                  "qubes-artwork"
                 ];
             };
 
