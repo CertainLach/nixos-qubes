@@ -82,6 +82,7 @@ stdenv.mkDerivation {
 
   postInstall = ''
     mv $out/usr/lib/systemd $out/lib/
+    mv $out/usr/bin $out/bin
     rm -d $out/usr/{lib,}
 
     substituteInPlace $out/lib/udev/rules.d/99-qubes-{usb,block}.rules \
