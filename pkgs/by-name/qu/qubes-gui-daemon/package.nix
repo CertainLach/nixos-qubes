@@ -22,12 +22,12 @@
 let
   inherit (python3.pkgs) wrapPython xcffib qubes-imgconverter;
 
-  version = "4.3.7";
+  version = "4.3.8";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-gui-daemon";
     rev = "refs/tags/v${version}";
-    hash = "sha256-x4O5tSdiz/FXyrxOZ9gMAQBvM7xaNt48BeB/1WxjjuQ=";
+    hash = "sha256-RV52GxWb1/ZExlB/xNwFvh1KeG8Tb7czkUiIR5lbjBg=";
   };
   daemon = stdenv.mkDerivation {
     inherit version src;
