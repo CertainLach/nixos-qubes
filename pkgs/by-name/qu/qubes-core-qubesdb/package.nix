@@ -47,7 +47,7 @@ let
 
     makeFlags = [
       "DESTDIR=$(out)"
-      "SBINDIR=/bin"
+      "BINDIR=/bin"
       "LIBDIR=/lib"
     ];
 
