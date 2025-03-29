@@ -25,12 +25,12 @@ let
   inherit (pkgs) hwdata scrypt;
   inherit (pkgs.xorg) xrandr xhost;
 
-  version = "4.3.10";
+  version = "4.3.12";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-admin-client";
     rev = "refs/tags/v${version}";
-    hash = "sha256-ghr5VxfE6QeRjpZhq8XROSr0yHq/Bx4uw87ZMfhJiaU=";
+    hash = "sha256-w74rfZk+LiySRC6vguHrUTKH2Bd3hcMopXn+BjWifrw=";
   };
 in
 buildPythonPackage {
