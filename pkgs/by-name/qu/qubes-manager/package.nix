@@ -13,6 +13,7 @@ let
     setuptools
     qubes-core-admin-client
     qubes-desktop-linux-manager
+    qubes-imgconverter
     qasync
     pyaml
     lxml
@@ -44,6 +45,7 @@ buildPythonApplication {
     pyqt6
     qubes-core-admin-client
     qubes-desktop-linux-manager
+    qubes-imgconverter
     qasync
     pyaml
     lxml
