@@ -425,7 +425,7 @@ in
       qubes-create = mkIf isDom0 ''
         if [ ! -f /var/lib/qubes/qubes.xml ]; then
           echo "setting up qubes database..."
-          qubes-create --offline-mode
+          ${qubes-core-admin}/bin/qubes-create --offline-mode
         fi
       '';
     };
