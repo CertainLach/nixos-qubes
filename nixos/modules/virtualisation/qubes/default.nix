@@ -423,7 +423,7 @@ in
         cp -rf /etc/qubes-rpc/policy.static/* /etc/qubes-rpc/policy
       '';
       qubes-create = ''
-        if ! test -f /var/lib/qubes/qubes.xml; do
+        if ! test -f /var/lib/qubes/qubes.xml; then
           echo "setting up qubes database...
           qubes-create --offline-mode
         end
