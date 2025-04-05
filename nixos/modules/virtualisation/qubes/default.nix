@@ -412,14 +412,23 @@ in
 
     # Some qubes daemons write to legacy policy directory at runtime.
     system.etc.overlay.mutable = true;
-    # FIXME: When package is removed, its old policy will remain in etc.
-    # TODO: Test with etc overlays. setup-etc preserves old files, but with overlays
-    # it might require to evacuate runtime policy - install etc - move runtime policy back.
-    system.activationScripts.etc-qubes-rpc = stringAfter [ "etc" ] ''
-      echo "setting up qubes rpc..."
-      mkdir -p /etc/qubes-rpc/policy
-      cp -rf /etc/qubes-rpc/policy.static/* /etc/qubes-rpc/policy
-    '';
+    system.activationScripts = {
+      # FIXME: When package is removed, its old policy will remain in etc.
+      # TODO: Test with etc overlays. setup-etc preserves old files, but with overlays
+      # it might require to evacuate runtime policy - install etc - move runtime policy back.
+      # Good news - runtime policy is moving out of /etc, which will allow to replace this
+      etc-qubes-rpc = stringAfter [ "etc" ] ''
+        echo "setting up qubes rpc..."
+        mkdir -p /etc/qubes-rpc/policy
+        cp -rf /etc/qubes-rpc/policy.static/* /etc/qubes-rpc/policy
+      '';
+      qubes-create = ''
+        if ! test -f /var/lib/qubes/qubes.xml; do
+          echo "setting up qubes database...
+          qubes-create --offline-mode
+        end
+      '';
+    };
 
     systemd.packages =
       [
