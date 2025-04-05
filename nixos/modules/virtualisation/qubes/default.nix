@@ -426,7 +426,7 @@ in
         if [ -e /var/lib/qubes/qubes.xml ]; then
           echo "setting up qubes database..."
           qubes-create --offline-mode
-        end
+        fi
       '';
     };
 
