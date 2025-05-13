@@ -35,27 +35,14 @@ in
       });
     };
     kernels = mkOption {
-      type = attrsOf (submodule {
-        # TODO: Source type?
-        options = {
-          version = mkOption {
-            description = "Kernel version portition of the version";
-            type = str;
-          };
-          fedoraVersion = mkOption {
-            description = "Kernel fedora version portition of the version";
-            type = str;
-          };
-          kernel = mkOption {
-            description = "Path to kernel RPM file";
-            type = path;
-          };
-          modules = mkOption {
-            description = "Path to modules RPM file";
-            type = path;
-          };
-        };
-      });
+      description = "Attrset of kernel packages to install";
+      type = attrsOf package;
+      default = {};
+    };
+    defaultKernel = mkOption {
+      description = "Which kernel should be set as default";
+      type = nullOr str;
+      default = null;
     };
   };
 
