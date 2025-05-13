@@ -1,0 +1,7 @@
+[project]
+name = "nixos-qubes-tools"
+version = "0.1.0"
+description = "Qubes declarative state reconciler"
+
+[project.scripts]
+nixos-qubes-reconcile = "nixos_qubes_tools:main"

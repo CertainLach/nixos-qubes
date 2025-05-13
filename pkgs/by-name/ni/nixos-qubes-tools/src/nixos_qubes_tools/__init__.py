@@ -6,7 +6,7 @@ import qubesadmin
 import qubesadmin.exc
 import qubesadmin.tools
 import qubesadmin.events.utils
-import json
+from pydantic import BaseModel
 
 from sys import exit
 from os import listdir, mkdir
@@ -17,9 +17,16 @@ from shutil import rmtree, copyfile
 parser = qubesadmin.tools.QubesArgumentParser(description = 'Reconcile templates/kernels installed using nix')
 parser.add_argument("data")
 
+class Data(BaseModel):
+    # name => unpacked kernel
+    kernels: dict[str, str]
+    default_kernel: str
+
+class KernelManagementData(BaseModel):
+    kernel_path: str
+
 kernel_pool = "/var/lib/qubes/vm-kernels"
 nix_marker = "MANAGED_BY_NIX"
-
 
 def check_kernel_name(name):
     if '/' in name:
@@ -45,10 +52,10 @@ def is_kernel_unused(app, name):
 
 def is_kernel_managed(name):
     return isfile(join(kernel_pool, name, nix_marker))
-def read_management_data(name):
+def read_management_data(name) -> KernelManagementData:
     file = join(kernel_pool, name, nix_marker)
     with open(file) as marker:
-        return json.load(marker)
+        return KernelManagementData.model_validate_json(marker)
 
 def remove_kernel(name):
     # Wouldn't be funny if there was a wild / in the name
@@ -65,9 +72,9 @@ def try_remove_kernel(app, name):
         print("    will be removed after no active users left")
         return False
 
-def reconcile_kernels(app, data):
-    kernels: dict = data['kernels']
-    default_kernel = data['default_kernel']
+def reconcile_kernels(app, data: Data):
+    kernels = data.kernels
+    default_kernel = data.default_kernel
 
     wants_to_delete = set()
     for kernel_name in listdir(kernel_pool):
@@ -94,7 +101,7 @@ def reconcile_kernels(app, data):
             print("  management data is missing, recreating")
             remove_kernel(kernel_name)
             continue
-        if managed_data['kernel_path'] != kernels[kernel_name]:
+        if managed_data.kernel_path != kernels[kernel_name]:
             print("  was updated, recreating")
             remove_kernel(kernel_name)
             continue
@@ -115,7 +122,7 @@ def reconcile_kernels(app, data):
                 copyfile(src, dst, follow_symlinks=True)
         # Assuming marker file will be synced later than other files, on invalid copy it should copy kernel again.
         with open(join(kernel, "MANAGED_BY_NIX"), "w") as marker:
-            marker.write(json.dumps({'kernel_path': kernel_path}))
+            marker.write(KernelManagementData(kernel_path = kernel_path).model_dump_json())
 
     old_kernel = app.default_kernel
     if default_kernel != None and default_kernel != old_kernel:
@@ -129,7 +136,7 @@ async def main_async(args):
     app = args.app
 
     with open(args.data) as data_file:
-        data = json.load(data_file)
+        data = Data.model_validate_json(data_file)
 
     reconcile_kernels(app, data)
 

@@ -1,6 +1,6 @@
 {
+  lib,
   stdenv,
-  patsh,
   rpmextract,
   fakeroot,
   e2fsprogs,
@@ -8,32 +8,35 @@
   python3,
 }:
 let
-  inherit (python3.pkgs) qubes-core-admin-client;
+  inherit (python3.pkgs) qubes-core-admin-client buildPythonApplication pydantic setuptools;
 in
 
-stdenv.mkDerivation {
+buildPythonApplication {
   name = "nixos-qubes-tools";
   version = "0.1.0";
+  format = "pyproject";
 
-  src = ./bin;
+  # TODO: Filter
+  src = ./.;
 
   buildInputs = [
     rpmextract
-    qubes-core-admin-client
     fakeroot
     e2fsprogs
     rsync
+    setuptools
   ];
 
-  nativeBuildInputs = [
-    patsh
+  dependencies = [
+    qubes-core-admin-client
+    pydantic
   ];
 
-  installPhase = ''
-    		mkdir -p $out/bin
-    		cp ./* $out/bin/
-    		for name in nixos-qubes-install-{kernel,template}-rpm; do
-    			patsh -f $out/bin/$name -s ${builtins.storeDir}
-    		done
-    	'';
+  meta = {
+    description = "Qubes declarative state reconciler";
+    license = lib.licenses.mit;
+    sourceProvenance = [ lib.sourceTypes.fromSource ];
+    maintainers = [ lib.maintainers.lach ];
+    mainProgram = "nixpkgs-qubes-reconcile";
+  };
 }
