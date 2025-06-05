@@ -23,12 +23,12 @@
 let
   inherit (lib) optionalString;
 
-  version = "4.3.5";
+  version = "4.3.10";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-qrexec";
     rev = "refs/tags/v${version}";
-    hash = "sha256-z6pjVY47zIYQb11nCxaP8Cfgfe1sSq6Mol2im5NGmS0=";
+    hash = "sha256-VaLVISwPqAMr/gT0axMF5dlQVPbfuwleAQgyB7528Wo=";
   };
   makeFlags = [
     "DESTDIR=$(out)"
