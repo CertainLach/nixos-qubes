@@ -18,7 +18,7 @@
   bash,
   lvm2,
   util-linux,
-  substituteAll,
+  replaceVars,
   writeShellScript,
   distutils,
   setuptools,
@@ -66,23 +66,20 @@ buildPythonPackage {
 
   patches = [
     ./0001-refactor-use-mutable-systemd.patch
-    (substituteAll {
-      # Note that out is substituted using %out%, and the actual
-      # substitution is done in postPatch
-      src = ./0002-refactor-template-paths.patch;
-      env = {
-        inherit killall hwdata coreutils;
-        qubes_client = qubes-core-admin-client;
-        qrexec_dom0 = qubes-core-qrexec.dom0;
-        qrexec_util = qubes-core-qrexec.util;
-        qrexec_client = qubes-core-qrexec;
-        qubesdb_daemon = qubes-core-qubesdb-daemon;
-        qubesdb_client = qubes-core-qubesdb-client;
-        # Imported qubes-vmm-xen is a python package, which might be built with a
-        # different python version (and is used as the system xen binary), but only
-        # binaries are wanted here.
-        qubes_vmm_xen = pkgs.qubes-vmm-xen;
-      };
+    # Note that out is substituted using %out%, and the actual
+    # substitution is done in postPatch
+    (replaceVars ./0002-refactor-template-paths.patch {
+      inherit killall hwdata coreutils;
+      qubes_client = qubes-core-admin-client;
+      qrexec_dom0 = qubes-core-qrexec.dom0;
+      qrexec_util = qubes-core-qrexec.util;
+      qrexec_client = qubes-core-qrexec;
+      qubesdb_daemon = qubes-core-qubesdb-daemon;
+      qubesdb_client = qubes-core-qubesdb-client;
+      # Imported qubes-vmm-xen is a python package, which might be built with a
+      # different python version (and is used as the system xen binary), but only
+      # binaries are wanted here.
+      qubes_vmm_xen = pkgs.qubes-vmm-xen;
     })
     ./0003-fix-fixup-paths.patch
     ./0004-fix-python-prefix-arg.patch
