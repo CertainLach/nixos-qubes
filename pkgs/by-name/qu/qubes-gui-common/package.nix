@@ -4,12 +4,12 @@
   fetchFromGitHub,
 }:
 let
-  version = "4.3.0";
+  version = "4.3.1";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-gui-common";
     rev = "refs/tags/v${version}";
-    hash = "sha256-piFnt0v/FdmTiMwXd3hYjAMAKoo4cWsRlHbNk+voRR0=";
+    hash = "sha256-RDB2tS+vLXu7RwA6Ng4TekIubzIKtuQK8ALRGjsXmcY=";
   };
 in
 stdenvNoCC.mkDerivation {
