@@ -16,12 +16,12 @@
 let
   inherit (lib) optionalAttrs;
 
-  version = "4.3.9";
+  version = "4.3.10";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-linux-utils";
     rev = "refs/tags/v${version}";
-    hash = "sha256-LUdCUacY4LsLeJsvmd1UU27AcddOJUt3mE+0IraFhR0=";
+    hash = "sha256-0AD/qwhm722JkUTK5kKao5sk1w7xbIyi24DdL/WMVrQ=";
   };
 
   imgconverter = python.pkgs.buildPythonPackage {
