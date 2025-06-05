@@ -7,11 +7,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1738453229,
-        "narHash": "sha256-7H9XgNiGLKN1G1CgRh0vUL4AheZSYzPm+zmZ7vxbJdo=",
+        "lastModified": 1748821116,
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "32ea77a06711b758da0ad9bd6a844c5740a87abd",
+        "rev": "49f0870db23e8c1ca0b5259734a02cd9e1e371a1",
         "type": "github"
       },
       "original": {
@@ -22,11 +21,10 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1739408864,
-        "narHash": "sha256-MR4ih4pG16ZpZNyMIXAi0xzFTjQFv5gpVKwbC/gkAtE=",
+        "lastModified": 1749164277,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c372be582bf5e88398542c699229108e74196705",
+        "rev": "7d4fcb1622747ccd42eb01144b21e07f8bef7717",
         "type": "github"
       },
       "original": {
@@ -39,7 +37,6 @@
     "nixpkgs-libvirt_10_5": {
       "locked": {
         "lastModified": 1727211877,
-        "narHash": "sha256-zy/ar3GpnzuGRCwrr6zV/QicoZcqd2kNNhkRDECfStU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "e0464e47880a69896f0fb1810f00e0de469f770a",
@@ -64,7 +61,6 @@
     "shelly": {
       "locked": {
         "lastModified": 1737089050,
-        "narHash": "sha256-SQ22z9L7fSC8FWNIlImpKeBGBUPoWpsTy9uc75o7uK0=",
         "owner": "CertainLach",
         "repo": "shelly",
         "rev": "b5fa6bb56dcd1541ec399ceab1e95a74872ecd34",
@@ -83,11 +79,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1738953846,
-        "narHash": "sha256-yrK3Hjcr8F7qS/j2F+r7C7o010eVWWlm4T1PrbKBOxQ=",
+        "lastModified": 1748243702,
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "4f09b473c936d41582dd744e19f34ec27592c5fd",
+        "rev": "1f3f7b784643d488ba4bf315638b2b0a4c5fb007",
         "type": "github"
       },
       "original": {
