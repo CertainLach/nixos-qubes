@@ -10,12 +10,12 @@
   wrapGAppsHook3,
 }:
 let
-  version = "4.3.11";
+  version = "4.3.13";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-desktop-linux-manager";
     rev = "refs/tags/v${version}";
-    hash = "sha256-2MYkRxdXW18AOmBC+ETs0cRVOASe7PMKxXTIwVOlWAU=";
+    hash = "sha256-pBl+qfnxwTRoXKPT9PATdLPGCFDsltBa3i5m/igj10w=";
   };
 in
 
