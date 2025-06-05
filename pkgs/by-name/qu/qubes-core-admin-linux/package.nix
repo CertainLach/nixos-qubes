@@ -16,7 +16,7 @@ let
     qubes-core-admin-client
     ;
 
-  version = "4.3.13";
+  version = "4.3.15";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-admin-linux";
