@@ -13,7 +13,7 @@
   xcffib,
   xlib,
   socat,
-  substituteAll,
+  replaceVars,
   bash,
   distutils,
   setuptools,
@@ -39,24 +39,21 @@ buildPythonPackage {
   format = "other";
 
   patches = [
-    (substituteAll {
-      src = ./0001-refactor-template-paths.patch;
-      env = {
-        inherit
-          scrypt
-          hwdata
-          xrandr
-          xhost
-          ;
-        # TODO: Depends on agent-linux, meaning this path is located on remote machine.
-        # Lets assume paranoid backup/restore won't work for now.
-        qfile_unpacker = "/var/empty";
-        qrexec_dom0 = qubes-core-qrexec.dom0;
-        qrexec_domU = qubes-core-qrexec.domU;
-        # TODO: package windows tools
-        qubes_windows_tools = "/var/empty";
-        qubes_guid = qubes-gui-daemon;
-      };
+    (replaceVars ./0001-refactor-template-paths.patch {
+      inherit
+        scrypt
+        hwdata
+        xrandr
+        xhost
+        ;
+      # TODO: Depends on agent-linux, meaning this path is located on remote machine.
+      # Lets assume paranoid backup/restore won't work for now.
+      qfile_unpacker = "/var/empty";
+      qrexec_dom0 = qubes-core-qrexec.dom0;
+      qrexec_domU = qubes-core-qrexec.domU;
+      # TODO: package windows tools
+      qubes_windows_tools = "/var/empty";
+      qubes_guid = qubes-gui-daemon;
     })
     ./0002-refactor-fixup-paths.patch
   ];
