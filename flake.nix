@@ -37,7 +37,7 @@
             (composeExtensions (import ./pkgs/top-level/overlay.nix) (
               import "${inputs.nixpkgs}/pkgs/top-level/by-name-overlay.nix" ./pkgs/by-name
             ))
-            (self: _: { libvirt_10_5 = inputs.nixpkgs-libvirt_10_5.legacyPackages.${self.system}.libvirt; })
+            (self: _: { libvirt_10_5 = inputs.nixpkgs-libvirt_10_5.legacyPackages.${self.stdenv.hostPlatform.system}.libvirt; })
           ) (import ./nix/overlay.nix);
         flake.overlays.default = self.overlays.qubesPackages;
 
