@@ -1,0 +1,67 @@
+#!/bin/sh
+
+set -eu
+
+usage() {
+	echo "Usage: nixos-qubes-install-kernel-url <name> <kernelver> <fedoraver> <kernel-rpm-url> <modules-rpm-url> [<gpg-key-path>]" >&2
+	echo "" >&2
+	echo "Downloads kernel and modules RPMs from URLs, verifies signatures, and installs." >&2
+	echo "" >&2
+	echo "Arguments:" >&2
+	echo "  name             Name for the installed kernel (e.g. '6.12.64-1.fc41')" >&2
+	echo "  kernelver        Kernel version (e.g. '6.12.64-1')" >&2
+	echo "  fedoraver        Fedora version (e.g. 'fc41')" >&2
+	echo "  kernel-rpm-url   URL to kernel-qubes-vm RPM" >&2
+	echo "  modules-rpm-url  URL to kernel-modules RPM" >&2
+	echo "  gpg-key-path     Optional path to GPG public key for signature verification" >&2
+	echo "" >&2
+	echo "Example:" >&2
+	echo "  nixos-qubes-install-kernel-url 6.12.64-1.fc41 6.12.64-1 fc41 \\" >&2
+	echo "    https://ftp.qubes-os.org/.../kernel-qubes-vm-6.12.64-1.qubes.fc41.x86_64.rpm \\" >&2
+	echo "    https://ftp.qubes-os.org/.../kernel-modules-6.12.64-1.qubes.fc41.x86_64.rpm \\" >&2
+	echo "    /etc/qubes/repo-templates/keys/RPM-GPG-KEY-qubes-4.3-primary" >&2
+	exit 1
+}
+
+if [ "$#" -lt 5 ] || [ "$#" -gt 6 ]; then
+	usage
+fi
+
+name=$1
+kernelver=$2
+fedoraver=$3
+kernel_url=$4
+modules_url=$5
+gpg_key=${6:-}
+
+dir=$(mktemp -d)
+trap 'rm -rf "$dir"' EXIT
+
+kernel_rpm="$dir/kernel.rpm"
+modules_rpm="$dir/modules.rpm"
+
+echo "Downloading kernel RPM..."
+curl --fail --location --progress-bar -o "$kernel_rpm" "$kernel_url"
+echo "Downloading modules RPM..."
+curl --fail --location --progress-bar -o "$modules_rpm" "$modules_url"
+
+if [ -n "$gpg_key" ]; then
+	echo "Verifying RPM signatures..."
+	rpmdb_dir="$dir/rpmdb"
+	rpmkeys --dbpath="$rpmdb_dir" --import "$gpg_key"
+	for rpm_file in "$kernel_rpm" "$modules_rpm"; do
+		if ! rpmkeys --dbpath="$rpmdb_dir" \
+			--define='_pkgverify_level all' \
+			--define='_pkgverify_flags 0x0' \
+			--checksig "$rpm_file"; then
+			echo "ERROR: RPM signature verification failed for $(basename "$rpm_file")!" >&2
+			exit 1
+		fi
+	done
+	echo "Signatures OK."
+else
+	echo "WARNING: No GPG key provided, skipping signature verification." >&2
+fi
+
+echo "Installing kernel '$name'..."
+exec nixos-qubes-install-kernel-rpm "$name" "$kernelver" "$fedoraver" "$kernel_rpm" "$modules_rpm"

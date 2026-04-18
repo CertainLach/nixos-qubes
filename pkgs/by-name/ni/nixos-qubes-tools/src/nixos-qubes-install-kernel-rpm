@@ -2,6 +2,24 @@
 
 set -eu
 
+usage() {
+	echo "Usage: nixos-qubes-install-kernel-rpm <name> <kernelver> <fedoraver> <kernel-rpm> <modules-rpm>" >&2
+	echo "" >&2
+	echo "Installs a Qubes VM kernel from local RPM files." >&2
+	echo "" >&2
+	echo "Arguments:" >&2
+	echo "  name         Name for the installed kernel (e.g. '6.12.64-1.fc41')" >&2
+	echo "  kernelver    Kernel version (e.g. '6.12.64-1')" >&2
+	echo "  fedoraver    Fedora version (e.g. 'fc41')" >&2
+	echo "  kernel-rpm   Path to kernel-qubes-vm RPM" >&2
+	echo "  modules-rpm  Path to kernel-modules RPM" >&2
+	exit 1
+}
+
+if [ "$#" -ne 5 ]; then
+	usage
+fi
+
 name=$1
 kernelver=$2
 fedoraver=$3

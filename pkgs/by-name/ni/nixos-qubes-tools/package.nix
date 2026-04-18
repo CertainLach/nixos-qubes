@@ -40,7 +40,7 @@ buildPythonApplication {
   ];
 
   postInstall = ''
-    for script in nixos-qubes-install-template-rpm nixos-qubes-install-kernel-rpm nixos-qubes-install-template-url; do
+    for script in nixos-qubes-install-template-rpm nixos-qubes-install-kernel-rpm nixos-qubes-install-template-url nixos-qubes-install-kernel-url; do
       install -m 0755 src/$script $out/bin/$script
       wrapProgram $out/bin/$script --prefix PATH : ${runtimePath}
     done

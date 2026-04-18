@@ -2,6 +2,21 @@
 
 set -eu
 
+usage() {
+	echo "Usage: nixos-qubes-install-template-rpm <template-name> <rpm-file>" >&2
+	echo "" >&2
+	echo "Installs a Qubes template from a local RPM file." >&2
+	echo "" >&2
+	echo "Arguments:" >&2
+	echo "  template-name  Name of the template (e.g. 'fedora-41-xfce')" >&2
+	echo "  rpm-file       Path to the template RPM file" >&2
+	exit 1
+}
+
+if [ "$#" -ne 2 ]; then
+	usage
+fi
+
 template_name=$1
 template_file=$2
 
