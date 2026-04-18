@@ -5,6 +5,7 @@
   e2fsprogs,
   rsync,
   curl,
+  rpm,
   makeWrapper,
   python3,
 }:
@@ -16,6 +17,7 @@ let
     e2fsprogs
     rsync
     curl
+    rpm # rpmkeys for signature verification
   ];
 in
 
