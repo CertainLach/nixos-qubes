@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -eu
+
+usage() {
+	echo "Usage: nixos-qubes-install-template-url <template-name> <rpm-url>" >&2
+	echo "" >&2
+	echo "Downloads a template RPM from URL and installs it." >&2
+	echo "" >&2
+	echo "Example:" >&2
+	echo "  nixos-qubes-install-template-url fedora-41-xfce \\" >&2
+	echo "    https://ftp.qubes-os.org/repo/yum/r4.3/templates-itl/rpm/qubes-template-fedora-41-xfce-4.3.0-202504081605.noarch.rpm" >&2
+	exit 1
+}
+
+if [ "$#" -ne 2 ]; then
+	usage
+fi
+
+template_name=$1
+rpm_url=$2
+
+dir=$(mktemp -d)
+trap 'rm -rf "$dir"' EXIT
+
+rpm_file="$dir/template.rpm"
+echo "Downloading $rpm_url..."
+curl --fail --location --progress-bar -o "$rpm_file" "$rpm_url"
+
+echo "Installing template '$template_name'..."
+exec nixos-qubes-install-template-rpm "$template_name" "$rpm_file"

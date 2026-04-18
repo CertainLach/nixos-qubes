@@ -32,6 +32,7 @@ let
     qubes-manager
     runCommand
     qubes-core-admin-linux
+    nixos-qubes-tools
     python3
     lndir
     ;
@@ -513,6 +514,7 @@ in
         qubes-core-admin-client # qvm-* CLI tools, xdg-autostart
       ]
       ++ optionals isDom0 [
+        nixos-qubes-tools # template/kernel install helpers
         qubes-manager # qubes-qube-manager
         qubes-core-admin # qvm-console-dispvm
         qubes-artwork # qubes icons/wallpapers

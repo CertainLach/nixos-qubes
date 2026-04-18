@@ -1,14 +1,22 @@
 {
   lib,
-  stdenv,
   rpmextract,
   fakeroot,
   e2fsprogs,
   rsync,
+  curl,
+  makeWrapper,
   python3,
 }:
 let
   inherit (python3.pkgs) qubes-core-admin-client buildPythonApplication pydantic setuptools;
+  runtimePath = lib.makeBinPath [
+    rpmextract
+    fakeroot
+    e2fsprogs
+    rsync
+    curl
+  ];
 in
 
 buildPythonApplication {
@@ -19,11 +27,8 @@ buildPythonApplication {
   # TODO: Filter
   src = ./.;
 
-  buildInputs = [
-    rpmextract
-    fakeroot
-    e2fsprogs
-    rsync
+  nativeBuildInputs = [
+    makeWrapper
     setuptools
   ];
 
@@ -31,6 +36,13 @@ buildPythonApplication {
     qubes-core-admin-client
     pydantic
   ];
+
+  postInstall = ''
+    for script in nixos-qubes-install-template-rpm nixos-qubes-install-kernel-rpm nixos-qubes-install-template-url; do
+      install -m 0755 src/$script $out/bin/$script
+      wrapProgram $out/bin/$script --prefix PATH : ${runtimePath}
+    done
+  '';
 
   meta = {
     description = "Qubes declarative state reconciler";
