@@ -42,10 +42,6 @@ let
     pname = "qubes-core-qrexec-base";
     format = "custom";
 
-    patches = [
-      ./0003-refactor-drop-gbulb-dependency.patch
-    ];
-
     postPatch = ''
       substituteInPlace qrexec/client.py \
         --replace-fail "/usr/bin/qrexec-client-vm" "${domU}/bin/qrexec-client-vm" \
@@ -96,10 +92,6 @@ let
     inherit version src;
     pname = "qubes-core-qrexec-domU";
 
-    patches = [
-      ./0003-refactor-drop-gbulb-dependency.patch
-    ];
-
     postPatch = ''
       substituteInPlace systemd/qubes-qrexec-agent.service \
         --replace-fail "ExecStart=/usr/lib/" "ExecStart=$out/lib/" \
@@ -142,7 +134,6 @@ let
 
       patches = [
         ./0002-refactor-remove-default-policy-prgram.patch
-        ./0003-refactor-drop-gbulb-dependency.patch
       ];
 
       postPatch = optionalString (!isBootstrap) ''
@@ -190,7 +181,6 @@ let
           do
             ln -sf ${base}/bin/qubes-policy-admin $out/etc/qubes-rpc/$rpcname
           done
-          patsh -f $out/etc/qubes-rpc/qubes.WaitForSession -s ${builtins.storeDir}
           wrapPythonProgramsIn $out/etc/qubes-rpc ${base}
         '';
 
