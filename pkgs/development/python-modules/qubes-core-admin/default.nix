@@ -126,6 +126,9 @@ buildPythonPackage {
 
   buildFlags = [ "all" ];
 
+  # Test data contains intentionally dangling symlinks (fake sysfs PCI device tree)
+  dontCheckForBrokenSymlinks = true;
+
   dontUsePypaInstall = true;
   postInstall = ''
     mkdir -p $man/share

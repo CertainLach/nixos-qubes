@@ -1,13 +1,12 @@
-From a2406fdd04eb02a74944f55c47e1e7ca9f030d44 Mon Sep 17 00:00:00 2001
+From aafafb689f53acbda0e21ca7bb8b4ae1a069ef09 Mon Sep 17 00:00:00 2001
 From: Yaroslav Bolyukin <iam@lach.pw>
-Date: Mon, 16 Sep 2024 18:54:14 +0200
+Date: Sat, 18 Apr 2026 20:55:32 +0200
 Subject: [PATCH 3/4] fix: fixup paths
 
-Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
  Makefile                        | 19 +++++--------------
  doc/Makefile                    |  4 ++--
- linux/aux-tools/Makefile        |  8 ++++----
+ linux/aux-tools/Makefile        | 10 +++++-----
  linux/aux-tools/startup-misc.sh |  4 ++--
  linux/system-config/Makefile    |  6 +++---
  qvm-tools/qubes-hcl-report      |  2 +-
@@ -15,13 +14,13 @@ Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
  qvm-tools/qvm-sync-clock        |  2 +-
  relaxng/Makefile                |  2 +-
  setup.py                        |  2 +-
- 10 files changed, 21 insertions(+), 30 deletions(-)
+ 10 files changed, 22 insertions(+), 31 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 852186ff..9361ab8d 100644
+index ceefb38..00fad0e 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -190,7 +190,6 @@ ifeq ($(BACKEND_VMM),xen)
+@@ -192,7 +192,6 @@ ifeq ($(BACKEND_VMM),xen)
  endif
  	mkdir -p $(DESTDIR)/etc/qubes-rpc
  	mkdir -p $(DESTDIR)/etc/qubes/policy.d
@@ -29,7 +28,7 @@ index 852186ff..9361ab8d 100644
  	install -m 0644 qubes-rpc-policy/90-default.policy \
  		$(DESTDIR)/etc/qubes/policy.d/90-default.policy
  	install -m 0644 qubes-rpc-policy/85-admin-backup-restore.policy \
-@@ -201,12 +200,12 @@ endif
+@@ -203,12 +202,12 @@ endif
  	cp qubes-rpc/qubes.NotifyTools $(DESTDIR)/etc/qubes-rpc/
  	cp qubes-rpc/qubes.NotifyUpdates $(DESTDIR)/etc/qubes-rpc/
  	cp qubes-rpc/qubes.ConnectTCP $(DESTDIR)/etc/qubes-rpc/
@@ -47,7 +46,7 @@ index 852186ff..9361ab8d 100644
  			$(DESTDIR)/etc/qubes-rpc/$$method || exit 1; \
  	done
  	install qubes-rpc/admin.vm.volume.Import $(DESTDIR)/etc/qubes-rpc/
-@@ -242,14 +241,6 @@ endif
+@@ -244,14 +243,6 @@ endif
  	mkdir -p "$(DESTDIR)$(DOCDIR)"
  	cp qubes/storage/callback.json.example "$(DESTDIR)$(DOCDIR)/qubes_callback.json.example"
  
@@ -63,7 +62,7 @@ index 852186ff..9361ab8d 100644
  	rm -rf destinstdir
  	mkdir -p destinstdir
 diff --git a/doc/Makefile b/doc/Makefile
-index 2f3e8abe..302803d1 100644
+index 2f3e8ab..302803d 100644
 --- a/doc/Makefile
 +++ b/doc/Makefile
 @@ -165,6 +165,6 @@ autoxml.rst: ../relaxng/qubes.rng example.xml
@@ -76,23 +75,25 @@ index 2f3e8abe..302803d1 100644
 -	cp $(BUILDDIR)/man/* $(DESTDIR)/usr/share/man/man1/
 +	cp $(BUILDDIR)/man/* $(DESTDIR)/share/man/man1/
 diff --git a/linux/aux-tools/Makefile b/linux/aux-tools/Makefile
-index d919c84f..6bfbe916 100644
+index 89e0a57..0c35ea2 100644
 --- a/linux/aux-tools/Makefile
 +++ b/linux/aux-tools/Makefile
-@@ -2,7 +2,7 @@ all:
+@@ -2,8 +2,8 @@ all:
  	true
  
  install:
 -	mkdir -p $(DESTDIR)/usr/lib/qubes
--	cp cleanup-dispvms $(DESTDIR)/usr/lib/qubes
--	cp startup-misc.sh $(DESTDIR)/usr/lib/qubes
+-	cp preload-dispvm $(DESTDIR)/usr/lib/qubes/
+-	cp cleanup-dispvms $(DESTDIR)/usr/lib/qubes/
+-	cp startup-misc.sh $(DESTDIR)/usr/lib/qubes/
 -	cp fix-dir-perms.sh $(DESTDIR)/usr/lib/qubes/
 +	mkdir -p $(DESTDIR)/lib/qubes
-+	cp cleanup-dispvms $(DESTDIR)/lib/qubes
-+	cp startup-misc.sh $(DESTDIR)/lib/qubes
++	cp preload-dispvm $(DESTDIR)/lib/qubes/
++	cp cleanup-dispvms $(DESTDIR)/lib/qubes/
++	cp startup-misc.sh $(DESTDIR)/lib/qubes/
 +	cp fix-dir-perms.sh $(DESTDIR)/lib/qubes/
 diff --git a/linux/aux-tools/startup-misc.sh b/linux/aux-tools/startup-misc.sh
-index 6a282fe5..d66b609f 100755
+index 6a282fe..d66b609 100755
 --- a/linux/aux-tools/startup-misc.sh
 +++ b/linux/aux-tools/startup-misc.sh
 @@ -1,9 +1,9 @@
@@ -108,7 +109,7 @@ index 6a282fe5..d66b609f 100755
  
  xl sched-credit -d 0 -w 2000
 diff --git a/linux/system-config/Makefile b/linux/system-config/Makefile
-index 68ce7f50..74928d2f 100644
+index 68ce7f5..74928d2 100644
 --- a/linux/system-config/Makefile
 +++ b/linux/system-config/Makefile
 @@ -2,6 +2,6 @@ all:
@@ -122,7 +123,7 @@ index 68ce7f50..74928d2f 100644
 +	install -m 0755 create-snapshot destroy-snapshot $(DESTDIR)/lib/qubes
 +	install -m 0644 -D tmpfiles-qubes.conf $(DESTDIR)/lib/tmpfiles.d/qubes.conf
 diff --git a/qvm-tools/qubes-hcl-report b/qvm-tools/qubes-hcl-report
-index d71b76a3..13770fd7 100755
+index e854069..a4c0ad5 100755
 --- a/qvm-tools/qubes-hcl-report
 +++ b/qvm-tools/qubes-hcl-report
 @@ -1,4 +1,4 @@
@@ -132,7 +133,7 @@ index d71b76a3..13770fd7 100755
  # The Qubes OS Project, https://www.qubes-os.org
  #
 diff --git a/qvm-tools/qvm-console-dispvm b/qvm-tools/qvm-console-dispvm
-index 95959e6a..6ad3181e 100755
+index 95959e6..6ad3181 100755
 --- a/qvm-tools/qvm-console-dispvm
 +++ b/qvm-tools/qvm-console-dispvm
 @@ -1,4 +1,4 @@
@@ -142,7 +143,7 @@ index 95959e6a..6ad3181e 100755
  print_usage() {
  cat >&2 << USAGE
 diff --git a/qvm-tools/qvm-sync-clock b/qvm-tools/qvm-sync-clock
-index 930cef85..0771eb1b 100755
+index 930cef8..0771eb1 100755
 --- a/qvm-tools/qvm-sync-clock
 +++ b/qvm-tools/qvm-sync-clock
 @@ -1,4 +1,4 @@
@@ -152,7 +153,7 @@ index 930cef85..0771eb1b 100755
  #
  # The Qubes OS Project, http://www.qubes-os.org
 diff --git a/relaxng/Makefile b/relaxng/Makefile
-index 922179a3..18308b71 100644
+index 922179a..18308b7 100644
 --- a/relaxng/Makefile
 +++ b/relaxng/Makefile
 @@ -1,4 +1,4 @@
@@ -162,7 +163,7 @@ index 922179a3..18308b71 100644
  	mkdir -p $(DESTDIR)$(RELAXNGPATH)
  	cp *.rng $(DESTDIR)$(RELAXNGPATH)
 diff --git a/setup.py b/setup.py
-index 69bace60..442706ef 100644
+index 9e846e6..a439a31 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -19,7 +19,7 @@ def get_console_scripts():
@@ -175,5 +176,5 @@ index 69bace60..442706ef 100644
              os.makedirs(bin)
          except:
 -- 
-2.47.1
+2.53.0
 

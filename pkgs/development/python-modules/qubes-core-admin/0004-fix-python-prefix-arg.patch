@@ -1,18 +1,17 @@
-From 8a48b3c746979100fa2f3a4c1fb4743b63c12426 Mon Sep 17 00:00:00 2001
+From df7fe4709fddd0af4d3449905db60de6b030fa28 Mon Sep 17 00:00:00 2001
 From: Yaroslav Bolyukin <iam@lach.pw>
-Date: Mon, 16 Sep 2024 20:41:53 +0200
+Date: Sat, 18 Apr 2026 20:55:36 +0200
 Subject: [PATCH 4/4] fix: python prefix arg
 
-Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
  Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index 9361ab8d..8aafeefe 100644
+index 00fad0e..b874eba 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -181,7 +181,7 @@ ifeq ($(OS),Linux)
+@@ -183,7 +183,7 @@ ifeq ($(OS),Linux)
  	$(MAKE) install -C linux/aux-tools
  	$(MAKE) install -C linux/system-config
  endif
@@ -22,5 +21,5 @@ index 9361ab8d..8aafeefe 100644
  	mkdir -p $(DESTDIR)/etc/qubes
  ifeq ($(BACKEND_VMM),xen)
 -- 
-2.47.1
+2.53.0
 
