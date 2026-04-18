@@ -22,15 +22,15 @@
 }:
 
 let
-  inherit (pkgs) hwdata scrypt;
-  inherit (pkgs.xorg) xrandr xhost;
+  # hwdata, script have python packages named the same way
+  inherit (pkgs) hwdata scrypt xhost xrandr;
 
-  version = "4.3.17";
+  version = "4.3.19";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-admin-client";
     rev = "refs/tags/v${version}";
-    hash = "sha256-n10FxpFJU2AeawGnuMmqgBO7GVI6CSGY++zBcoafJsA=";
+    hash = "sha256-F6qU3E4i53QuWRrN2yUEJSnLjZqLm9kE/lJaG9kFuPw=";
   };
 in
 buildPythonPackage {
