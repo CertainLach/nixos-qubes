@@ -9,14 +9,14 @@
 let
   qubesVersion = "4.3";
   fedoraVersion = "41";
-  version = "4.3.3-1";
+  version = "4.3.4-1";
   stubdom = fetchurl {
     url = "https://ftp.qubes-os.org/repo/yum/r${qubesVersion}/current-testing/dom0/fc${fedoraVersion}/rpm/xen-hvm-stubdom-linux-${version}.fc${fedoraVersion}.x86_64.rpm";
-    hash = "sha256-Dw900E4PytErrHjgcTdQxKxVWSO/yIk0tvSmPYVXdlg=";
+    hash = "sha256-VQa5ybj2jfDjgP7wMiqAB6AuZ1yjVjmiIfB1JlnqDlg=";
   };
   stubdom-full = fetchurl {
     url = "https://ftp.qubes-os.org/repo/yum/r${qubesVersion}/current-testing/dom0/fc${fedoraVersion}/rpm/xen-hvm-stubdom-linux-full-${version}.fc${fedoraVersion}.x86_64.rpm";
-    hash = "sha256-tpeyE+orVD1EhkqFJb+s4P7SRUUMysgguaRx7/LhV7I=";
+    hash = "sha256-LmoOneD7wVHXO8loiKuJFiTSFfxDm0ygdh+DPK2OKu8=";
   };
 in
 stdenv.mkDerivation {
