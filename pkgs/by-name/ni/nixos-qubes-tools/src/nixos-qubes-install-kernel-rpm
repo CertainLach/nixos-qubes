@@ -50,7 +50,12 @@ if ! test -f "$moduledir/modules.builtin"; then
 	exit 1
 fi
 
-truncate -s 512M modules.img
+# Size image to fit modules + 20% headroom for ext4 metadata
+modules_size=$(du -sb "$moduledir" | cut -f1)
+img_size=$(( modules_size * 120 / 100 ))
+# Minimum 64M
+if [ "$img_size" -lt 67108864 ]; then img_size=67108864; fi
+truncate -s "$img_size" modules.img
 mkfs.ext4 -d "$moduledir" -F modules.img
 
 mv modules.img "$kerneldir/"
