@@ -22,6 +22,7 @@ let
   daemon = stdenv.mkDerivation {
     inherit src version;
     pname = "qubes-core-qubesdb-daemon";
+    pyproject = true;
 
     sourceRoot = "${src.name}/daemon";
 
@@ -57,6 +58,7 @@ let
   pythonModule = python.pkgs.buildPythonPackage {
     inherit src version;
     pname = "qubes-core-qubesdb-daemon-python";
+    pyproject = true;
 
     sourceRoot = "${src.name}/python";
 
@@ -86,6 +88,7 @@ let
   client = stdenv.mkDerivation {
     inherit src version;
     pname = "qubes-core-qubesdb-client";
+    pyproject = true;
 
     sourceRoot = "${src.name}/client";
 
