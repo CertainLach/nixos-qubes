@@ -478,7 +478,7 @@ in
       store.path = "${qubes-vmm-xen}/bin/xenstored";
       qemu.package = qemu_qubes;
 
-      bootParams = [
+      boot.params = [
         "gnttab_max_frames=2048"
         "gnttab_max_maptrack_frames=4096"
       ] ++ optional (recommended "disable-smt") "smt=off";
