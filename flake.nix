@@ -107,6 +107,7 @@
               # Sub-packages
               qubes-gui-daemon-xwayland = pkgs.qubes-gui-daemon.xwayland;
               qubes-core-qubesdb-daemon = pkgs.qubes-core-qubesdb.daemon;
+              qubes-app-linux-usb-proxy-sys-usb = pkgs.python3.pkgs.qubes-app-linux-usb-proxy.sys-usb;
 
               # WIP packages
               inherit (pkgs)
