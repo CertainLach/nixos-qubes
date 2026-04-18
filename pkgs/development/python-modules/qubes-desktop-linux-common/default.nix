@@ -9,12 +9,12 @@
   graphicsmagick,
 }:
 let
-  version = "4.2.15";
+  version = "4.4.0";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-desktop-linux-common";
     rev = "refs/tags/v${version}";
-    hash = "sha256-mB4Z3c1p/LocpSmXn4Oa45/039kjvtSY1Xobgf90ivM=";
+    hash = "sha256-je7xK9O8Z8xFZhOWreOrvGhP9sFtKzyKsegAxlo6UE8=";
   };
 in
 buildPythonPackage {
