@@ -7,11 +7,10 @@
   patsh,
   pkgs,
   usbguard,
-  systemd,
   wrapPython,
 }:
 let
-  inherit (pkgs) qubes-core-qubesdb hwdata;
+  inherit (pkgs) qubes-core-qubesdb hwdata systemd;
   version = "4.3.5";
   src = fetchFromGitHub {
     owner = "QubesOS";
