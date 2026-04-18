@@ -16,17 +16,18 @@
 let
   inherit (lib) optionalAttrs;
 
-  version = "4.3.10";
+  version = "4.3.11";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-linux-utils";
     rev = "refs/tags/v${version}";
-    hash = "sha256-0AD/qwhm722JkUTK5kKao5sk1w7xbIyi24DdL/WMVrQ=";
+    hash = "sha256-5nMBsIPxeCvGP7I0JACTBLjEq+kvGVoa3mokeBrSOCU=";
   };
 
   imgconverter = python.pkgs.buildPythonPackage {
     inherit src version;
     pname = "qubes-linux-utils-imgconverter";
+    pyproject = true;
 
     sourceRoot = "${src.name}/imgconverter";
 
