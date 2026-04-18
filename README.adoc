@@ -4,3 +4,17 @@ This repository is intended for the initial development and testing of QubesOS p
 
 It is planned that it will be merged to NixOS later, previous version of that work (here https://github.com/NixOS/nixpkgs/pull/341215) was stalled because
 it is a little too hard to maintain all of this in-tree.
+
+== Initial setup
+
+Get it started somehow
+
+The default setup has no templates installed, but nixos-qubes-tools to your rescue
+
+Get qubes RPM gpg key from a trusted location, e.g: https://keys.qubes-os.org/keys/qubes-release-4.2-signing-key.asc
+
+Install fedora kernel required for fedora templates: `nixos-qubes-install-kernel-url`: `nixos-qubes-install-kernel-url 6.12.64-1.fc41 6.12.64-1 fc41 https://ftp.qubes-os.org/repo/yum/r4.3/current/dom0/fc41/rpm/kernel-qubes-vm-6.12.64-1.qubes.fc41.x86_64.rpm https://ftp.qubes-os.org/repo/yum/r4.3/current/dom0/fc41/rpm/kernel-modules-6.12.64-1.qubes.fc41.x86_64.rpm qubes-release-4.2-signing-key.asc`
+
+Install first fedora template, it is required to work as UpdateVM to install other QubesOS templates: `nixos-qubes-install-template-url fedora-41-xfce https://ftp.qubes-os.org/repo/yum/r4.2/templates-itl/rpm/qubes-template-fedora-41-xfce-4.2.0-202501300253.noarch.rpm qubes-release-4.2-signing-key.asc`
+
+(TODO: NixOS based micro-vm with rpm installed to provide template search/download RPC endpoints?)
