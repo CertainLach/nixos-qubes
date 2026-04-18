@@ -7,12 +7,12 @@
   python3,
 }:
 let
-  version = "4.3.7-1";
+  version = "4.3.9-1";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-artwork";
     rev = "refs/tags/v${version}";
-    hash = "sha256-bkhDeFGFD5e+5oAQ1y97VS0p5xK8iHzLPA7irb251vg=";
+    hash = "sha256-fJMRV2m2XYbJdb7WDfLE3EZR2P+ehbi39lAM5Xc1/Zg=";
   };
 
 in
