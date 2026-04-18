@@ -11,6 +11,8 @@ When updating patches:
 Clone the original repo, apply existing patches using `git am -3 --no-gpg-sign`, fixing failures in the process, and then regenerate patches using `git format-patch`.
 Do not try to edit patch files manually, this process is too fragile and error-prone.
 
+Avoid using subagents for code changes, as they are much dumber than you in terms of following the conventions that are described here.
+
 For commits use NixOS commit convention:
 For updates: PACKAGE: vOLD -> vNEW
 For other changes (e.g patch updates): PACKAGE: CHANGE
@@ -19,5 +21,6 @@ For non-package changes (flake, overlay, CI): build: CHANGE
 
 Do not merge changes to multiple packages in the same commit, you can use `jj split` to do that.
 
-But suffix your commit messages with (slop) so LLM-generated commits can be identified in jj log, also never forget
+Suffix your commit messages with (slop) so LLM-generated commits can be identified in jj log, also never forget
 Co-Authored-With: trailer with your model name.
+
