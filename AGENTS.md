@@ -14,6 +14,7 @@ Do not try to edit patch files manually, this process is too fragile and error-p
 For commits use NixOS commit convention:
 For updates: PACKAGE: vOLD -> vNEW
 For other changes (e.g patch updates): PACKAGE: CHANGE
+For NixOS module changes: nixos/MODULE: CHANGE
 For non-package changes (flake, overlay, CI): build: CHANGE
 
 Do not merge changes to multiple packages in the same commit, you can use `jj split` to do that.
