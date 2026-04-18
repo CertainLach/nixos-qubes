@@ -33,6 +33,7 @@ let
     runCommand
     qubes-core-admin-linux
     python3
+    lndir
     ;
   inherit (python3.pkgs)
     qubes-core-admin
@@ -50,7 +51,6 @@ let
 
   # FIXME(upstream): symlinkJoin needs stripPrefix argument
   inherit (lib) hasPrefix isList optionalString;
-  inherit (pkgs.xorg) lndir;
   symlinkJoin =
     args_@{
       name,
@@ -379,6 +379,9 @@ in
     virtualisation.libvirtd = mkIf isDom0 {
       enable = true;
       package = qubes-core-libvirt;
+      # Qubes handles firewalling in sys-firewall, not via libvirt network bridge.
+      # Additionally, qubes-core-libvirt (10.5.0) predates nftables backend support.
+      firewallBackend = "none";
     };
     environment.etc = {
       # "/*" at the end to make qubes-rpc directory writable.
