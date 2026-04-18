@@ -17,12 +17,12 @@ let
     qubes-core-qubesdb
     ;
 
-  version = "4.3.25";
+  version = "4.4.0";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-agent-linux";
     rev = "refs/tags/v${version}";
-    hash = "sha256-V1yPcOvTrHzsfJv5luI9MVA8oKUeAeM6XzX9J0/bnsk=";
+    hash = "sha256-gcG1mb6S7Of5MihWpMXGr/+q76Jw+DJH/qNzlBMlGAY=";
   };
 in
 buildPythonApplication {
