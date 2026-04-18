@@ -51,12 +51,12 @@ let
     env -i date -u $arg
   '';
 
-  version = "4.3.31";
+  version = "4.3.44";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-admin";
     rev = "refs/tags/v${version}";
-    hash = "sha256-iqJzUy4MbV2KCNCywhx/nFn72pXgz1NnNwS9GPAQ9RA=";
+    hash = "sha256-bxgDi0v5u2PTLxk+sy2uW75iwaH0LBbm1MG9ss1gJ1Q=";
   };
 in
 buildPythonPackage {
