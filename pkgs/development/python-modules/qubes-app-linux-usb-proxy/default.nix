@@ -12,12 +12,12 @@
 }:
 let
   inherit (pkgs) qubes-core-qubesdb hwdata;
-  version = "4.3.1";
+  version = "4.3.5";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-app-linux-usb-proxy";
     rev = "refs/tags/v${version}";
-    hash = "sha256-itjkDs/OR7xT4pNfeqCmXmLA9H92gF4o11RPS2sUvhY=";
+    hash = "sha256-ieN+GtDmlL4cARnFcM3dVsjNKeH1ZuXUElTj2Tu3H+w=";
   };
 
   sys-usb = stdenv.mkDerivation {
