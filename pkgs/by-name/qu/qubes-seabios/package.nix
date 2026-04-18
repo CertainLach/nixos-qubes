@@ -98,7 +98,7 @@ let
 
 in
 stdenvNoCC.mkDerivation (finalAttrs: {
-  name = "qubes-seabios";
+  pname = "qubes-seabios";
   inherit version;
   unpackPhase = "true";
   installPhase = ''
