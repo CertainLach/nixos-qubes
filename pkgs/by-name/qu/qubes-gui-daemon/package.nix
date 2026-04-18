@@ -3,7 +3,10 @@
   stdenv,
   fetchFromGitHub,
   pkg-config,
-  xorg,
+  libx11,
+  libxcb,
+  libxcb-util,
+  libxrandr,
   libconfig,
   libnotify,
   glib,
@@ -22,12 +25,12 @@
 let
   inherit (python3.pkgs) wrapPython xcffib qubes-imgconverter;
 
-  version = "4.3.8";
+  version = "4.3.10";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-gui-daemon";
     rev = "refs/tags/v${version}";
-    hash = "sha256-RV52GxWb1/ZExlB/xNwFvh1KeG8Tb7czkUiIR5lbjBg=";
+    hash = "sha256-e3UEZFzO0xiSo5hdZ+pexw4/lIMmxeEDsJEPYIpYr1o=";
   };
   daemon = stdenv.mkDerivation {
     inherit version src;
@@ -40,10 +43,10 @@ let
     ];
 
     buildInputs = [
-      xorg.libX11.dev
-      xorg.libxcb.dev
-      xorg.xcbutil.dev
-      xorg.libXrandr.dev
+      libx11.dev
+      libxcb.dev
+      libxcb-util.dev
+      libxrandr.dev
       libnotify.dev
       glib
       libconfig
