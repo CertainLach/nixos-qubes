@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/master";
+      url = "git+file:/home/lach/build/nixpkgs";
     };
     # Qubes has outdated libvirt version
     nixpkgs-libvirt_10_5 = {
