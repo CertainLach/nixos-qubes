@@ -113,8 +113,8 @@ buildPythonApplication {
     rm $out/lib/systemd/resolved.conf.d/30_resolved-no-mdns-or-llmnr.conf
     rm -d $out/lib/systemd/resolved.conf.d
 
-    # Too many dropins which I don't use and have no ide how to make them work.
-    rm -rf $out/lib/systemd/user/{evolution-*,tracker-*}
+    # Too many dropins which I don't use and have no idea how to make them work.
+    rm -rf $out/lib/systemd/user/{evolution-*,tracker-*,pipewire.service.d,gvfs-daemon.service.d,at-spi-dbus-bus.service.d,wireplumber.service.d}
     rm -d $out/lib/systemd/user
 
   '';
