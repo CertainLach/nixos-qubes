@@ -25,16 +25,16 @@
 let
   inherit (python3.pkgs) wrapPython xcffib qubes-imgconverter;
 
-  version = "4.3.10";
+  version = "4.3.15";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-gui-daemon";
     rev = "refs/tags/v${version}";
-    hash = "sha256-e3UEZFzO0xiSo5hdZ+pexw4/lIMmxeEDsJEPYIpYr1o=";
+    hash = "sha256-N6cfV4ukiB2U2rAyaihoE8BRowsrrEfZTt5vZU899xc=";
   };
   daemon = stdenv.mkDerivation {
     inherit version src;
-    name = "qubes-gui-daemon";
+    pname = "qubes-gui-daemon";
 
     nativeBuildInputs = [
       pkg-config
