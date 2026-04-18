@@ -16,12 +16,12 @@ let
     qubes-core-admin-client
     ;
 
-  version = "4.3.17";
+  version = "4.3.21";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-core-admin-linux";
     rev = "refs/tags/v${version}";
-    hash = "sha256-r09mgOMB+4tOArrY+/2EOnHgbCVtPKpyvRput/asnvM=";
+    hash = "sha256-2WkssJISU4fHvolFt3Nd8HWymfoY3xim+wi2jcVfO08=";
   };
 in
 # FIXME: qfile-dom0-agent tries to call kdialog by absolute path, however just setting
