@@ -6,12 +6,12 @@
 }:
 let
   inherit (python3.pkgs) qubes-core-admin-client;
-  version = "6.2.0-2";
+  version = "6.2.0-3";
   src = fetchFromGitHub {
     owner = "QubesOS";
     repo = "qubes-desktop-linux-kde";
     rev = "refs/tags/v${version}";
-    hash = "sha256-Tpk00QbXRr4Lt8uhxwl9fiQUlqDF9opVxB/Cgjm9C0o=";
+    hash = "sha256-s4wGPECjfyHgjuDadvmDCj3g+de/4zVSWaqdNirEFiY=";
   };
 in
 # NOTE: Only window colorschema generator is packaged here, original
