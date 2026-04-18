@@ -40,7 +40,17 @@ in
     inherit version;
     vendor = "qubes";
     upstreamVersion = version;
-  
+
+    patches =
+      builtins.filter (
+        p:
+        let
+          name = builtins.baseNameOf p;
+        in
+        lib.hasPrefix "0001-makefile" name || lib.hasPrefix "0002-scripts" name
+      ) oldAttrs.patches
+      ++ qubesPatchList;
+
     src = fetchgit {
       url = "https://xenbits.xenproject.org/git-http/xen.git";
       rev = "c2ece6c994a236e9ba51c9ec99085ae99347d552";
