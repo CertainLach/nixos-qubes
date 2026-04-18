@@ -19,6 +19,7 @@ let
     [
       EFI_WORKAROUNDS
       BACKPORTS
+      SECURITY_FIXES
       UPSTREAMABLE_PATCHES
       QUBES_SPECIFIC_PATCHES
       OTHERS
@@ -41,15 +42,11 @@ in
     vendor = "qubes";
     upstreamVersion = version;
 
-    patches =
-      builtins.filter (
-        p:
-        let
-          name = builtins.baseNameOf p;
-        in
-        lib.hasPrefix "0001-makefile" name || lib.hasPrefix "0002-scripts" name
-      ) oldAttrs.patches
-      ++ qubesPatchList;
+    # Qubes patches first, then nixpkgs build-infra patches (copied locally) to avoid conflicts
+    patches = qubesPatchList ++ [
+      ./0001-makefile-efi-output-directory.patch
+      ./0002-scripts-external-executable-calls.patch
+    ];
 
     src = fetchgit {
       url = "https://xenbits.xenproject.org/git-http/xen.git";

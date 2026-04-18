@@ -55,7 +55,6 @@ in
       name = "0304-x86-time-do-not-kill-calibration-timer-on-suspend";
     })
   ];
-  # We already get XSA patches from Xen, so this is only included here for completeness.
   SECURITY_FIXES = [
     (qubesPatch {
       name = "0500-xsa480";
