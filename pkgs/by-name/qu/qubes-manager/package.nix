@@ -31,9 +31,11 @@ in
 buildPythonApplication {
   inherit version src;
   pname = "qubes-manager";
+  pyproject = true;
+
+  build-system = [ setuptools ];
 
   nativeBuildInputs = [
-    setuptools
     pyqt6
     qt6.qttools
     qt6.wrapQtAppsHook
