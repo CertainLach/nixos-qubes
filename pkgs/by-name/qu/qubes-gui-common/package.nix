@@ -14,7 +14,7 @@ let
 in
 stdenvNoCC.mkDerivation {
   inherit version src;
-  name = "qubes-gui-common";
+  pname = "qubes-gui-common";
 
   buildPhase = "true";
 
