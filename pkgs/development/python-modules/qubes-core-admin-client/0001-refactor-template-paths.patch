@@ -5,43 +5,40 @@ Subject: [PATCH 1/2] refactor: template paths
 
 Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
- qubesadmin/app.py                    | 21 +++------------------
+ qubesadmin/app.py                    | 20 +++-----------------
  qubesadmin/backup/dispvm.py          |  5 ++++-
  qubesadmin/backup/restore.py         |  6 +++---
  qubesadmin/config.py                 |  4 ++--
  qubesadmin/device_protocol.py        |  2 +-
  qubesadmin/tools/qvm_start.py        |  2 +-
  qubesadmin/tools/qvm_start_daemon.py |  8 ++++----
- 7 files changed, 18 insertions(+), 30 deletions(-)
+ 7 files changed, 18 insertions(+), 29 deletions(-)
 
-diff --git a/qubesadmin/app.py b/qubesadmin/app.py
-index d2c9802..91225d3 100644
 --- a/qubesadmin/app.py
 +++ b/qubesadmin/app.py
-@@ -40,13 +40,7 @@ import qubesadmin.utils
- import qubesadmin.vm
+@@ -41,12 +41,7 @@
  import qubesadmin.config
  import qubesadmin.device_protocol
--
+ 
 -try:
 -    import qubesdb
+-
 -    has_qubesdb = True
 -except ImportError:
 -    has_qubesdb = False
--
 +import qubesdb
  
- class VMCollection(object):
-     """Collection of VMs objects"""
-@@ -263,17 +257,8 @@ class QubesBase(qubesadmin.base.PropertyHolder):
+ 
+ class VMCollection:
+@@ -272,17 +267,8 @@
      def local_name(self):
-         """ Get localhost name """
+         """Get localhost name"""
          if not self._local_name:
 -            local_name = None
 -            if has_qubesdb:
 -                try:
 -                    local_qdb = qubesdb.QubesDB()
--                    local_name_b = local_qdb.read('/name')
+-                    local_name_b = local_qdb.read("/name")
 -                    if local_name_b:
 -                        local_name = local_name_b.decode()
 -                except qubesdb.Error:
@@ -49,23 +46,21 @@ index d2c9802..91225d3 100644
 -            if local_name is None:
 -                local_name = os.uname()[1]
 +            local_qdb = qubesdb.QubesDB()
-+            local_name = local_qdb.read('/name').decode()
++            local_name = local_qdb.read("/name").decode()
              self._local_name = local_name
  
          return self._local_name
-diff --git a/qubesadmin/backup/dispvm.py b/qubesadmin/backup/dispvm.py
-index 15a4567..1e9a126 100644
 --- a/qubesadmin/backup/dispvm.py
 +++ b/qubesadmin/backup/dispvm.py
-@@ -32,6 +32,7 @@ import qubesadmin
- import qubesadmin.exc
- import qubesadmin.utils
+@@ -36,6 +36,7 @@
  import qubesadmin.vm
+ from qubesadmin.app import QubesBase
+ from qubesadmin.vm import QubesVM
 +import qubesdb
  
  LOCKFILE = '/var/run/qubes/backup-paranoid-restore.lock'
  
-@@ -174,9 +175,11 @@ class RestoreInDisposableVM:
+@@ -179,9 +180,11 @@
              ['qvm-copy-to-vm', self.dispvm_name, path],
              stdout=subprocess.DEVNULL,
              stderr=subprocess.DEVNULL)
@@ -78,11 +73,9 @@ index 15a4567..1e9a126 100644
              os.path.basename(path)
          )
  
-diff --git a/qubesadmin/backup/restore.py b/qubesadmin/backup/restore.py
-index 54288d7..36712ee 100644
 --- a/qubesadmin/backup/restore.py
 +++ b/qubesadmin/backup/restore.py
-@@ -283,7 +283,7 @@ def launch_scrypt(action, input_name, output_name, passphrase):
+@@ -313,7 +313,7 @@
      :param passphrase: passphrase
      :return: subprocess.Popen object
      '''
@@ -91,7 +84,7 @@ index 54288d7..36712ee 100644
      (p, pty) = launch_proc_with_pty(command_line,
          stdin=subprocess.PIPE if input_name == '-' else None,
          stdout=subprocess.PIPE if output_name == '-' else None,
-@@ -997,9 +997,9 @@ class BackupRestore(object):
+@@ -1045,9 +1045,9 @@
  
              backup_stdin = vmproc.stdout
              if isinstance(self.app, qubesadmin.app.QubesRemote):
@@ -103,8 +96,6 @@ index 54288d7..36712ee 100644
              # keep at least 500M free for decryption of a previous chunk
              tar1_command = [qfile_unpacker_path,
                              str(os.getuid()), self.tmpdir, '-v',
-diff --git a/qubesadmin/config.py b/qubesadmin/config.py
-index d348bf6..485f404 100644
 --- a/qubesadmin/config.py
 +++ b/qubesadmin/config.py
 @@ -22,8 +22,8 @@
@@ -118,11 +109,9 @@ index d348bf6..485f404 100644
  QUBESD_RECONNECT_DELAY = 1.0
  QREXEC_SERVICES_DIR = '/etc/qubes-rpc'
  
-diff --git a/qubesadmin/device_protocol.py b/qubesadmin/device_protocol.py
-index 4ecf303..7877fed 100644
 --- a/qubesadmin/device_protocol.py
 +++ b/qubesadmin/device_protocol.py
-@@ -814,7 +814,7 @@ class DeviceInterface:
+@@ -858,7 +858,7 @@
          #               prog-if  prog-if_name   <-- two tabs
          result = {}
          with open(
@@ -131,11 +120,9 @@ index 4ecf303..7877fed 100644
          ) as pciids:
              # for `class_name` and `subclass_name`
              # pylint: disable=used-before-assignment
-diff --git a/qubesadmin/tools/qvm_start.py b/qubesadmin/tools/qvm_start.py
-index 1158e96..4bb4204 100644
 --- a/qubesadmin/tools/qvm_start.py
 +++ b/qubesadmin/tools/qvm_start.py
-@@ -75,7 +75,7 @@ parser_drive.add_argument('--cdrom', metavar='IMAGE',
+@@ -75,7 +75,7 @@
  
  parser_drive.add_argument('--install-windows-tools',
      action='store_const', dest='drive', default=False,
@@ -144,39 +131,37 @@ index 1158e96..4bb4204 100644
      help='temporarily attach Windows tools CDROM to the domain')
  
  
-diff --git a/qubesadmin/tools/qvm_start_daemon.py b/qubesadmin/tools/qvm_start_daemon.py
-index e03eace..9d2f353 100644
 --- a/qubesadmin/tools/qvm_start_daemon.py
 +++ b/qubesadmin/tools/qvm_start_daemon.py
-@@ -44,8 +44,8 @@ from Xlib import X, XK
+@@ -44,8 +44,8 @@
  from Xlib.display import Display
  from Xlib.error import DisplayConnectionError
  
--GUI_DAEMON_PATH = '/usr/bin/qubes-guid'
--PACAT_DAEMON_PATH = '/usr/bin/pacat-simple-vchan'
-+GUI_DAEMON_PATH = '@qubes_guid@/bin/qubes-guid'
-+PACAT_DAEMON_PATH = '@qubes_guid@/bin/pacat-simple-vchan'
- QUBES_ICON_DIR = '/usr/share/icons/hicolor/128x128/devices'
+-GUI_DAEMON_PATH = "/usr/bin/qubes-guid"
+-PACAT_DAEMON_PATH = "/usr/bin/pacat-simple-vchan"
++GUI_DAEMON_PATH = "@qubes_guid@/bin/qubes-guid"
++PACAT_DAEMON_PATH = "@qubes_guid@/bin/pacat-simple-vchan"
+ QUBES_ICON_DIR = "/usr/share/icons/hicolor/128x128/devices"
  
- def validator_key_sequence(sequence: str) -> bool:
-@@ -394,7 +394,7 @@ def get_monitor_layout():
+ 
+@@ -476,7 +476,7 @@
      """Get list of monitors and their size/position"""
      outputs = []
  
--    with subprocess.Popen(['xrandr', '-q'], stdout=subprocess.PIPE) as proc:
-+    with subprocess.Popen(['@xrandr@/bin/xrandr', '-q'], stdout=subprocess.PIPE) as proc:
+-    with subprocess.Popen(["xrandr", "-q"], stdout=subprocess.PIPE) as proc:
++    with subprocess.Popen(["@xrandr@/bin/xrandr", "-q"], stdout=subprocess.PIPE) as proc:
          for line in proc.stdout:
              line = line.decode()
              if not line.startswith("Screen") and not line.startswith(" "):
-@@ -525,7 +525,7 @@ class DAEMONLauncher:
-         guid_cmd += ['-T']  # prefix window titles with VM name
+@@ -627,7 +627,7 @@
+         guid_cmd += ["-T"]  # prefix window titles with VM name
          # get owner of X11 session
          session_owner = None
--        for line in subprocess.check_output(['xhost']).splitlines():
-+        for line in subprocess.check_output(['@xhost@/bin/xhost']).splitlines():
-             if line == b'SI:localuser:root':
+-        for line in subprocess.check_output(["xhost"]).splitlines():
++        for line in subprocess.check_output(["@xhost@/bin/xhost"]).splitlines():
+             if line == b"SI:localuser:root":
                  pass
-             elif line.startswith(b'SI:localuser:'):
+             elif line.startswith(b"SI:localuser:"):
 -- 
 2.47.1
 
