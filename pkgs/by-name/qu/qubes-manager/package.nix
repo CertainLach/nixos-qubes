@@ -69,6 +69,7 @@ buildPythonApplication {
   makeFlags = [
     "DESTDIR=$(out)"
     "LRELEASE_QT6=lrelease"
+    "RCC=${qt6.qtbase}/libexec/rcc"
   ];
   pythonImportsCheck = [ "qubesmanager" ];
 
