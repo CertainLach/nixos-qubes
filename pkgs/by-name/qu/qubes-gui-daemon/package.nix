@@ -76,7 +76,7 @@ let
         --replace-fail "Exec=/usr/" "Exec=$out/"
       substituteInPlace $out/lib/qubes/icon-receiver \
         --replace-fail "#!/usr/bin/python3" "#!/usr/bin/env python3"
-      wrapPythonProgramsIn $out/lib/qubes "${qubes-imgconverter}" "${xcffib}"
+      wrapPythonProgramsIn $out/lib/qubes "${qubes-imgconverter} ${xcffib}"
     '';
 
     # Package setups fortification by itself, nixos flags cause "_FORTIFY_SOURCE redefined" error
