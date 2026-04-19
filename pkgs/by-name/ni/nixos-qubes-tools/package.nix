@@ -6,6 +6,7 @@
   rsync,
   curl,
   rpm,
+  attr, # setfattr for SELinux labels
   makeWrapper,
   python3,
 }:
@@ -18,6 +19,7 @@ let
     rsync
     curl
     rpm # rpmkeys for signature verification
+    attr # setfattr for SELinux labels
   ];
 in
 

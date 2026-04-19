@@ -5,6 +5,7 @@
   e2fsprogs,
   util-linux,
   zstd,
+  attr,
 }:
 {
   kernelSrc,
@@ -24,6 +25,7 @@ let
       e2fsprogs
       util-linux
       zstd
+      attr
     ];
     unpackPhase = "rpmextract $src";
     # TODO: Shrink image after creation.
@@ -38,6 +40,10 @@ let
       # Image must contain the version-named subdirectory, not bare files.
       mkdir -p imgroot
       cp -a "$moduledir" imgroot/
+
+      # Set SELinux labels so modules are accessible under enforcing SELinux in VMs
+      find imgroot -exec setfattr -n security.selinux \
+        -v "system_u:object_r:modules_object_t:s0" {} \;
 
       # Match upstream qubes-prepare-vm-kernel: ext3 with minimal features,
       # create at 768M then shrink with resize2fs.
