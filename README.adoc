@@ -11,25 +11,55 @@ Get it started somehow
 
 The default setup has no templates installed, but nixos-qubes-tools to your rescue
 
-Get qubes RPM gpg key from a trusted location, e.g: https://keys.qubes-os.org/keys/qubes-release-4.2-signing-key.asc
+Get qubes RPM gpg key from a trusted location, e.g: https://keys.qubes-os.org/keys/qubes-release-4.3-signing-key.asc
 
-Install fedora kernel required for fedora templates: `nixos-qubes-install-kernel-url`: `nixos-qubes-install-kernel-url 6.12.64-1.fc41 6.12.64-1 fc41 https://ftp.qubes-os.org/repo/yum/r4.3/current/dom0/fc41/rpm/kernel-qubes-vm-6.12.64-1.qubes.fc41.x86_64.rpm https://ftp.qubes-os.org/repo/yum/r4.3/current/dom0/fc41/rpm/kernel-modules-6.12.64-1.qubes.fc41.x86_64.rpm qubes-release-4.2-signing-key.asc`
+Install fedora kernel required for fedora templates:
 
-Set it as default: `qubes-prefs default_kernel 6.12.64-1.fc41`
+[source,bash]
+----
+nixos-qubes-install-kernel-url 6.12.64-1.fc41 6.12.64-1 fc41 \
+  https://ftp.qubes-os.org/repo/yum/r4.3/current/dom0/fc41/rpm/kernel-qubes-vm-6.12.64-1.qubes.fc41.x86_64.rpm \
+  https://ftp.qubes-os.org/repo/yum/r4.3/current/dom0/fc41/rpm/kernel-modules-6.12.64-1.qubes.fc41.x86_64.rpm \
+  qubes-release-4.3-signing-key.asc
+----
 
-Install first fedora template, it is required to work as UpdateVM to install other QubesOS templates: `nixos-qubes-install-template-url fedora-41-xfce https://ftp.qubes-os.org/repo/yum/r4.2/templates-itl/rpm/qubes-template-fedora-41-xfce-4.2.0-202501300253.noarch.rpm qubes-release-4.2-signing-key.asc`
+Set it as default:
+
+[source,bash]
+----
+qubes-prefs default_kernel 6.12.64-1.fc41
+----
+
+Install first fedora template, it is required to work as UpdateVM to install other QubesOS templates:
+
+[source,bash]
+----
+nixos-qubes-install-template-url fedora-43-xfce \
+  https://ftp.qubes-os.org/repo/yum/r4.3/templates-itl/rpm/qubes-template-fedora-43-xfce-4.3.0-202601041226.noarch.rpm \
+  qubes-release-4.3-signing-key.asc
+----
 
 (TODO: NixOS based micro-vm with rpm installed to provide template search/download RPC endpoints?)
 
-Set fedora template as default_template
+Set fedora template as default_template:
 
-`qubes-prefs default_template fedora-41-xfce`
+[source,bash]
+----
+qubes-prefs default_template fedora-43-xfce
+----
 
-Create vm to use as default disposable, mark it as such, and set it
+Create vm to use as default disposable, mark it as such, and set it:
 
-`qvm-create --template fedora-41-xfce --label red default-dvm`
-`qvm-features default-dvm appmenus-dispvm 1`
-`qvm-prefs default-dvm template_for_dispvms True`
-`qubes-prefs default_dispvm default-dvm`
+[source,bash]
+----
+qvm-create --template fedora-43-xfce --label red default-dvm
+qvm-prefs default-dvm template_for_dispvms True
+qubes-prefs default_dispvm default-dvm
+----
 
-`qubes-prefs updatevm fedora-41-xfce`
+Set update VM:
+
+[source,bash]
+----
+qubes-prefs updatevm fedora-43-xfce
+----
