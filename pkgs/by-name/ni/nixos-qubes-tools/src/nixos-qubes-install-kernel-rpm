@@ -55,6 +55,9 @@ imgroot="$dir/imgroot"
 mkdir -p "$imgroot"
 cp -a "$moduledir" "$imgroot/"
 
+# Generate module index files (modules.dep, modules.alias, etc.)
+depmod -b "$imgroot" "$kernelver.qubes.$fedoraver.$(uname -m)"
+
 # Set SELinux labels so modules are accessible under enforcing SELinux in VMs
 find "$imgroot" -exec setfattr -n security.selinux \
 	-v "system_u:object_r:modules_object_t:s0" {} \;

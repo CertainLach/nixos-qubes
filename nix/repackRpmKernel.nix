@@ -26,6 +26,7 @@ let
       util-linux
       zstd
       attr
+      kmod
     ];
     unpackPhase = "rpmextract $src";
     # TODO: Shrink image after creation.
@@ -40,6 +41,9 @@ let
       # Image must contain the version-named subdirectory, not bare files.
       mkdir -p imgroot
       cp -a "$moduledir" imgroot/
+
+      # Generate module index files (modules.dep, modules.alias, etc.)
+      depmod -b imgroot ${kernelVersion}.qubes.${fedoraVersion}.${stdenv.hostPlatform.parsed.cpu.name}
 
       # Set SELinux labels so modules are accessible under enforcing SELinux in VMs
       find imgroot -exec setfattr -n security.selinux \

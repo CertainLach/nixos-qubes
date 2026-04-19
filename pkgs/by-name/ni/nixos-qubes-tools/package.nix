@@ -7,6 +7,7 @@
   curl,
   rpm,
   attr, # setfattr for SELinux labels
+  kmod, # depmod for module index
   makeWrapper,
   python3,
 }:
@@ -20,6 +21,7 @@ let
     curl
     rpm # rpmkeys for signature verification
     attr # setfattr for SELinux labels
+    kmod # depmod for module index
   ];
 in
 
