@@ -38,12 +38,17 @@ let
         ls -lah lib/modules/
         exit 1
       fi
-      # Image must contain the version-named subdirectory, not bare files.
-      mkdir -p imgroot
-      cp -a "$moduledir" imgroot/
+      # depmod expects lib/modules/$kver/ under its base path
+      kver=${kernelVersion}.qubes.${fedoraVersion}.${stdenv.hostPlatform.parsed.cpu.name}
+      mkdir -p depmod_base/lib/modules
+      cp -a "$moduledir" depmod_base/lib/modules/
 
       # Generate module index files (modules.dep, modules.alias, etc.)
-      depmod -b imgroot ${kernelVersion}.qubes.${fedoraVersion}.${stdenv.hostPlatform.parsed.cpu.name}
+      depmod -b depmod_base $kver
+
+      # Image must contain the version-named subdirectory, not bare files.
+      mkdir -p imgroot
+      mv depmod_base/lib/modules/$kver imgroot/
 
       # Set SELinux labels so modules are accessible under enforcing SELinux in VMs
       find imgroot -exec setfattr -n security.selinux \

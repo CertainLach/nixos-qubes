@@ -50,13 +50,19 @@ if ! test -f "$moduledir/modules.builtin"; then
 	exit 1
 fi
 
+# depmod expects lib/modules/$kver/ under its base path
+kver="$kernelver.qubes.$fedoraver.$(uname -m)"
+depmod_base="$dir/depmod_base"
+mkdir -p "$depmod_base/lib/modules"
+cp -a "$moduledir" "$depmod_base/lib/modules/"
+
+# Generate module index files (modules.dep, modules.alias, etc.)
+depmod -b "$depmod_base" "$kver"
+
 # Image must contain the version-named subdirectory, not bare files.
 imgroot="$dir/imgroot"
 mkdir -p "$imgroot"
-cp -a "$moduledir" "$imgroot/"
-
-# Generate module index files (modules.dep, modules.alias, etc.)
-depmod -b "$imgroot" "$kernelver.qubes.$fedoraver.$(uname -m)"
+mv "$depmod_base/lib/modules/$kver" "$imgroot/"
 
 # Set SELinux labels so modules are accessible under enforcing SELinux in VMs
 find "$imgroot" -exec setfattr -n security.selinux \
