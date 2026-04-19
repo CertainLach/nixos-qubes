@@ -65,6 +65,9 @@ find "$imgroot" -exec setfattr -n security.selinux \
 # Match upstream qubes-prepare-vm-kernel: ext3 with minimal features,
 # create at 768M then shrink with resize2fs.
 truncate -s 768M modules.img
+# TODO: qubes-prepare-vm-kernel uses no_copy_xattrs here; but then we would need to mount the resulting image
+# to set the selinux labels. As long as NixOS itself does not support selinux and ignores those xattrs, we should be fine
+# here?..
 mkfs.ext3 -q -F \
 	-Enum_backup_sb=0,root_owner=0:0 \
 	-d "$imgroot" modules.img
