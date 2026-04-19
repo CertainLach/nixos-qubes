@@ -41,6 +41,7 @@ let
     qubes-core-admin
     qubes-core-qrexec
     qubes-desktop-linux-common
+    qubes-desktop-linux-manager
     qubes-core-admin-client
     qubes-app-linux-usb-proxy
     ;
@@ -521,6 +522,7 @@ in
         qubes-core-admin # qvm-console-dispvm
         qubes-artwork # qubes icons/wallpapers
         qubes-gui-daemon # xdg-autostart
+        qubes-desktop-linux-manager # tray widgets, config tools
         qubes-core-qrexec.dom0
         qubes-core-admin-linux # qvm-copy
       ]

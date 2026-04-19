@@ -44,6 +44,10 @@ buildPythonPackage {
     mv $out/usr/lib/* $out/lib/
     mv $out/usr/share $out/
     rm -d $out/usr/{bin,lib,}
+
+    # Fix hardcoded path in systemd user service
+    substituteInPlace $out/lib/systemd/user/qubes-widget@.service \
+      --replace-fail "/usr/bin/widget-wrapper" "$out/bin/widget-wrapper"
   '';
 
   # buildFlags = ["all"];
