@@ -35,12 +35,16 @@ let
         ls -lah lib/modules/
         exit 1
       fi
+      # Image must contain the version-named subdirectory, not bare files.
+      mkdir -p imgroot
+      cp -a "$moduledir" imgroot/
+
       # Match upstream qubes-prepare-vm-kernel: ext3 with minimal features,
       # create at 768M then shrink with resize2fs.
       truncate -s 768M modules.img
       fakeroot mkfs.ext3 -q -F \
         -Enum_backup_sb=0,root_owner=0:0,no_copy_xattrs \
-        -d "$moduledir" modules.img
+        -d imgroot modules.img
       e2fsck -pDf modules.img >/dev/null || true
       resize2fs -fM modules.img >/dev/null
     '';
