@@ -53,7 +53,7 @@ let
       # create at 768M then shrink with resize2fs.
       truncate -s 768M modules.img
       fakeroot mkfs.ext3 -q -F \
-        -Enum_backup_sb=0,root_owner=0:0,no_copy_xattrs \
+        -Enum_backup_sb=0,root_owner=0:0 \
         -d imgroot modules.img
       e2fsck -pDf modules.img >/dev/null || true
       resize2fs -fM modules.img >/dev/null
