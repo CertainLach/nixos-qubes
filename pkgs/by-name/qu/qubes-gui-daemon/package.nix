@@ -8,6 +8,7 @@
   libxcb-util,
   libxrandr,
   libconfig,
+  setxkbmap,
   libnotify,
   glib,
   qubes-core-vchan-xen,
@@ -57,6 +58,12 @@ let
       qubes-vmm-xen.dev
       pulseaudio
     ];
+
+    postPatch = ''
+      substituteInPlace gui-daemon/xside.c \
+        --replace-fail '/usr/bin/qubesdb-write' '${qubes-core-qubesdb}/bin/qubesdb-write' \
+        --replace-fail '/usr/bin/setxkbmap' '${setxkbmap}/bin/setxkbmap'
+    '';
 
     buildFlags = [ "all" ];
 
