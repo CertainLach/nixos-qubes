@@ -32,6 +32,7 @@ let
     qubes-manager
     runCommand
     qubes-core-admin-linux
+    qubes-notification-proxy
     nixos-qubes-tools
     python3
     lndir
@@ -460,6 +461,7 @@ in
         qubes-core-admin
         qubes-app-linux-usb-proxy
         qubes-core-qrexec.dom0
+        qubes-notification-proxy
       ]
       ++ optionals isDomU [
         qubes-core-qrexec.domU

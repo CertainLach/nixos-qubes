@@ -88,6 +88,7 @@
                 qubes-gui-daemon
                 qubes-linux-utils
                 qubes-manager
+                qubes-notification-proxy
                 qubes-seabios
                 qubes-vmm-stubdom-linux
                 qemu_qubes
