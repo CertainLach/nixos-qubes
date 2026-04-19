@@ -35,13 +35,14 @@ let
         ls -lah lib/modules/
         exit 1
       fi
-      # Size image to fit modules + 20% headroom for ext4 metadata
-      modules_size=$(du -sb "$moduledir" | cut -f1)
-      img_size=$(( modules_size * 120 / 100 ))
-      # Minimum 64M
-      if [ "$img_size" -lt 67108864 ]; then img_size=67108864; fi
-      truncate -s "$img_size" modules.img
-      fakeroot mkfs.ext4 -d "$moduledir" -F modules.img
+      # Match upstream qubes-prepare-vm-kernel: ext3 with minimal features,
+      # create at 768M then shrink with resize2fs.
+      truncate -s 768M modules.img
+      fakeroot mkfs.ext3 -q -F \
+        -Enum_backup_sb=0,root_owner=0:0,no_copy_xattrs \
+        -d "$moduledir" modules.img
+      e2fsck -pDf modules.img >/dev/null || true
+      resize2fs -fM modules.img >/dev/null
     '';
     installPhase = ''
       mv modules.img $out
