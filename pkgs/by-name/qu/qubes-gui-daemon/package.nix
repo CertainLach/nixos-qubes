@@ -73,7 +73,7 @@ let
       rm -d $out/{usr,lib64}
 
       substituteInPlace $out/etc/xdg/autostart/qubes-{icon-receiver,screen-layout-watches}.desktop \
-        --replace-fail "Exec=/usr/" "$out/"
+        --replace-fail "Exec=/usr/" "Exec=$out/"
       substituteInPlace $out/lib/qubes/icon-receiver \
         --replace-fail "#!/usr/bin/python3" "#!/usr/bin/env python3"
       wrapPythonProgramsIn $out/lib/qubes "${qubes-imgconverter}" "${xcffib}"
