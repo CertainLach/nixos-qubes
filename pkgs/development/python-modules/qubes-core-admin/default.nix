@@ -25,6 +25,9 @@
   qubes-core-qubesdb-client ? pkgs.qubes-core-qubesdb,
   qubes-core-qubesdb-daemon ? pkgs.qubes-core-qubesdb.daemon,
   qubes-vmm-xen,
+  gawk,
+  gnugrep,
+  pciutils,
   # Uses entrypoints to provide usb device type extension.
   # It may make sense to pass it to systemd service PYTHONPATH?
   qubes-app-linux-usb-proxy,
@@ -102,6 +105,16 @@ buildPythonPackage {
     patsh
     setuptools
     distutils
+    # In PATH at build time for patsh to resolve bare commands in scripts
+    qubes-vmm-xen
+    pciutils
+    gawk
+    gnugrep
+    coreutils
+    killall
+    lvm2
+    util-linux
+    bash
   ];
 
   propagatedBuildInputs = [
@@ -116,12 +129,6 @@ buildPythonPackage {
     qubes-app-linux-usb-proxy
     pyinotify
     qubes-vmm-xen
-
-    # For scripts
-    bash
-    lvm2
-    util-linux.bin
-    coreutils
   ];
 
   buildFlags = [ "all" ];
@@ -134,8 +141,9 @@ buildPythonPackage {
     mkdir -p $man/share
 
     # TODO: Move to libexec?
-    patsh -f $out/lib/qubes/create-snapshot -s ${builtins.storeDir}
-    patsh -f $out/lib/qubes/destroy-snapshot -s ${builtins.storeDir}
+    for script in create-snapshot destroy-snapshot startup-misc.sh fix-dir-perms.sh; do
+      patsh -f $out/lib/qubes/$script -s ${builtins.storeDir}
+    done
     wrapPythonProgramsIn $out/lib/qubes ${qubes-core-admin-client}
 
     cp ${getDateRpc} $out/etc/qubes-rpc/qubes.GetDate
